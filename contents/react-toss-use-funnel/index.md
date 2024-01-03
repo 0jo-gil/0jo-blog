@@ -1,8 +1,9 @@
 ---
 title: "[React] 토스의 퍼널 관리 방식 (@toss/useFunnel)"
-date: "2024-01-03"
+date: "2023-12-25"
 category: "React"
 summary: "토스 라이브러리 useFunnel을 간단하게 분석해보자."
+slug: "react-toss-use-funnel"
 ---
 
 

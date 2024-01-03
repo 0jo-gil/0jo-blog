@@ -1,3 +1,5 @@
+import PostItem from "./PostItem";
+
 const PostList = ({ posts }: any) => {
 
     return (
@@ -6,12 +8,7 @@ const PostList = ({ posts }: any) => {
                 posts &&
                 posts?.map((post: any) => {
                     return (
-                        <div>
-                            <div>{post.node.frontmatter.title}</div>
-                            <div>{post.node.frontmatter.summary}</div>
-                            <div>{post.node.frontmatter.date}</div>
-                            <div>{post.node.frontmatter.category}</div>
-                        </div>
+                        <PostItem post={post} />
                     )
                 })
             }

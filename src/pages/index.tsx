@@ -7,6 +7,7 @@ import CategoriesUsage from "components/Categories/CategoriesUsage";
 import PostsList from "components/Posts/PostList";
 
 import queryString from "query-string";
+import {StInnerContainer} from "styles/common";
 
 type Props = {
   location: {
@@ -23,7 +24,7 @@ type Props = {
 export type SummaryProps = {
 
   nodes: {
-    categories: string[]; 
+    categories: string[];
     title: string;
     date: string;
     summary: string;
@@ -32,7 +33,7 @@ export type SummaryProps = {
 
 declare module "react" {
   interface IntrinsicAttributes {
-   
+
     nodes?: SummaryProps[];
   }
 }
@@ -45,19 +46,15 @@ const Home = ({
     }
   },
 }: Props) => {
-  // const parsedQuery = queryString.parse(search);
-  // const selectedCategory = 
-  //   typeof parsedQuery.category !== 'string' || !parsedQuery.category
-  //     ? 'All'
-  //     : parsedQuery.category;
 
-  console.log(edges)
   return (
     <Layout
       title='Home'
     >
-      <CategoriesUsage nodes={edges} />
-      <PostsList posts={edges}/>
+      <StInnerContainer>
+        <CategoriesUsage nodes={edges} />
+        <PostsList posts={edges}/>
+      </StInnerContainer>
     </Layout>
   )
 }
@@ -74,6 +71,13 @@ export const query = graphql`
             title
             date
             category
+            slug
+            thumbnail {
+              childImageSharp {
+                gatsbyImageData
+              }
+              publicURL
+            }
           }
         }
       }

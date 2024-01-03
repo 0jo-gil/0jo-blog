@@ -7,18 +7,10 @@
 /**
  * @type {import('gatsby').GatsbyNode['createPages']}
  */
-exports.createPages = async ({ actions }) => {
-  const { createPage } = actions
-  createPage({
-    path: "/using-dsg",
-    component: require.resolve("./src/templates/using-dsg.js"),
-    context: {},
-    defer: true,
-  })
-}
 
-const path = require('path');
+const path = require("path")
 const { createFilePath } = require(`gatsby-source-filesystem`)
+const { graphql } = require("gatsby")
 
 exports.onCreateWebpackConfig = ({ getConfig, actions }) => {
   const output = getConfig().output || {}
@@ -41,5 +33,36 @@ exports.onCreateBabelConfig = ({ actions }) => {
     options: {
       runtime: `automatic`,
     },
+  })
+}
+
+exports.createPages = async ({ graphql, actions }) => {
+  const { createPage } = actions
+
+  const result = await graphql(`
+    query {
+      allMarkdownRemark {
+        group(field: frontmatter___category) {
+          fieldValue
+        }
+      }
+    }
+  `)
+
+  const postList = result.data.allMarkdownRemark.group
+
+  const PostListTemplate = path.resolve(
+    __dirname,
+    "./src/templates/PostListTemplate.tsx"
+  )
+
+  postList.forEach(({ fieldValue }) => {
+    createPage({
+      path: `/posts/${fieldValue}`,
+      component: PostListTemplate,
+      context: {
+        category: fieldValue,
+      },
+    })
   })
 }

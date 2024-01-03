@@ -2,7 +2,8 @@
 title: My Markdown Page
 date: "2023-07-25T22:12:03.284Z"
 description: This is an example of a Markdown page.
-slug: page1
+slug: page1,
+category: 'test'
 ---
 
 # My Markdown Page

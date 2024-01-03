@@ -7,13 +7,13 @@ type Props = {
         href: string;
     };
     data: {
-        site: {
-            siteMetadata: {
-                title: string;
-                description: string;
-                siteUrl: string;
-            };
-        };
+        // site: {
+        //     siteMetadata: {
+        //         title: string;
+        //         description: string;
+        //         siteUrl: string;
+        //     };
+        // };
         allMarkdownRemark: {
             edges: any[];
         };
@@ -24,24 +24,23 @@ type Props = {
 }
 
 const Posts = ({
-    location: { search, href },
-    data: {
-        site: {
-            siteMetadata: { title, description },
-        },
-        allMarkdownRemark: { edges },
-        file: { publicURL },
-    },
+    // location: { search, href },
+    // data: {
+    //     // site: {
+    //     //     siteMetadata: { title, description },
+    //     // },
+    //     // allMarkdownRemark: { edges },
+    //     // file: { publicURL },
+    // },
 }: Props) => {
 
     return (
         <Layout
             title="Posts"
-            description={description}
-            url={href}
-            image={publicURL}
+            // url={href}
+            // image={publicURL}
         >
-            <PostList posts={edges} />
+            {/* <PostList posts={edges} /> */}
         </Layout>
     )
 

@@ -1,10 +1,4 @@
 /**
- * Implement Gatsby's Node APIs in this file.
- *
- * See: https://www.gatsbyjs.com/docs/reference/config-files/gatsby-node/
- */
-
-/**
  * @type {import('gatsby').GatsbyNode['createPages']}
  */
 
@@ -37,6 +31,8 @@ exports.onCreateBabelConfig = ({ actions }) => {
   })
 }
 
+
+
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 
@@ -66,4 +62,38 @@ exports.createPages = async ({ graphql, actions }) => {
       },
     })
   })
+
+
+  // 각 포스트 별 상세 페이지 생성
+  const postResult = await graphql(`
+    query {
+      allMarkdownRemark {
+        edges {
+          node {
+            frontmatter {
+              slug
+            }
+          }
+        }
+      }
+    }
+  `)
+
+  const posts = postResult.data.allMarkdownRemark.edges
+
+  const PostTemplate = path.resolve(
+      __dirname,
+      "./src/templates/PostTemplate.tsx"
+  )
+
+  posts.forEach(({ node }) => {
+    createPage({
+      path: `/posts/${node.frontmatter.slug}`,
+      component: PostTemplate,
+      context: {
+        slug: node.frontmatter.slug,
+      },
+    })
+  })
 }
+

@@ -4,6 +4,8 @@ import { Link, graphql } from "gatsby"
 import Layout from "components/Layout/Layout"
 import CategoriesUsage from "components/Categories/CategoriesUsage";
 
+import PostsList from "components/Posts/PostList";
+
 import queryString from "query-string";
 
 type Props = {
@@ -43,52 +45,35 @@ const Home = ({
     }
   },
 }: Props) => {
-  const parsedQuery = queryString.parse(search);
-  const selectedCategory = 
-    typeof parsedQuery.category !== 'string' || !parsedQuery.category
-      ? 'All'
-      : parsedQuery.category;
+  // const parsedQuery = queryString.parse(search);
+  // const selectedCategory = 
+  //   typeof parsedQuery.category !== 'string' || !parsedQuery.category
+  //     ? 'All'
+  //     : parsedQuery.category;
 
-      console.log(edges, '!!!')
-
+  console.log(edges)
   return (
     <Layout
       title='Home'
     >
       <CategoriesUsage nodes={edges} />
+      <PostsList posts={edges}/>
     </Layout>
   )
 }
 
 export default Home;
 
-// export const query = graphql`
-//   query getPosts {
-//     allMarkdownRemark {
-//       edges {
-//         node {
-//           frontmatter {
-//             category
-//             title
-//             date
-//             summary
-//           }
-//         }
-//       }
-//     }
-//   }
-// `;
-
 export const query = graphql`
-  query getPosts($category: String) {
-    allMarkdownRemark(filter: {frontmatter: {category: {eq: $category}}}) {
+  query getPosts {
+    allMarkdownRemark(sort: {frontmatter: {date: DESC}}, limit: 5) {
       edges {
         node {
           frontmatter {
-            category
+            summary
             title
             date
-            summary
+            category
           }
         }
       }

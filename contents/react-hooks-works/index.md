@@ -1,5 +1,5 @@
 ---
-title: "[React] React Hooks 동작 원리"
+title: "React Hooks 동작 원리"
 date: "2024-01-03"
 category: "React"
 summary: "리액트 훅의 동작 원리"

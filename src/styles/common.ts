@@ -1,9 +1,14 @@
 import styled from '@emotion/styled';
+import React from "react";
 
+type StyleProps = {
+    $style?: React.CSSProperties;
+}
 
-export const StInnerContainer = styled.div`
+export const StInnerContainer = styled.div<StyleProps>`
     width: 1080px;
     margin: 0 auto;
+    ${({$style}) => $style}
 `;
 
 export const StFlexRow = styled.div`

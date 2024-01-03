@@ -1,12 +1,13 @@
 import styled from "@emotion/styled";
 import React from "react";
 import {StInnerContainer, StFlexRow} from "styles/common";
+import {StHeaderTitle} from "components/Header/style";
 
 const Header: React.FC = () => {
     return (
         <StHeader>
             <StInnerContainer className="flex flex-row justify-between items-center" >
-                <h1>TITLE</h1>
+                <StHeaderTitle>0jo's dev blog</StHeaderTitle>
 
                 <StFlexRow>
                     <li>

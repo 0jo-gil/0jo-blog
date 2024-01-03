@@ -1,4 +1,5 @@
 import Header from "components/Header/Header";
+import React from "react";
 
 interface Props {
   title?: string;

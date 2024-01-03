@@ -1,20 +1,19 @@
+import PostItem from "./PostItem";
+
 const PostList = ({ posts }: any) => {
-    console.log(posts)
+
     return (
         <div>
             {
                 posts &&
                 posts?.map((post: any) => {
                     return (
-                        <div dangerouslySetInnerHTML={{
-                            __html: post.node.html
-                        }}></div>
+                        <PostItem post={post} />
                     )
                 })
             }
         </div>
     )
-
 }
 
 export default PostList;

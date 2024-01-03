@@ -1,10 +1,4 @@
 /**
- * Configure your Gatsby site with this file.
- *
- * See: https://www.gatsbyjs.com/docs/reference/config-files/gatsby-config/
- */
-
-/**
  * @type {import('gatsby').GatsbyConfig}
  */
 module.exports = {
@@ -16,8 +10,9 @@ module.exports = {
   },
   plugins: [
     `gatsby-plugin-image`,
-    'gatsby-plugin-typescript',
-    'gatsby-plugin-postcss',
+    "gatsby-plugin-typescript",
+    "gatsby-plugin-postcss",
+    "gatsby-plugin-emotion",
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -28,8 +23,8 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: `posts`,
-        path: `${__dirname}/content/posts`,
+        name: `contents`,
+        path: `${__dirname}/contents`,
       },
     },
     `gatsby-transformer-remark`,
@@ -46,6 +41,5 @@ module.exports = {
         icon: `src/images/gatsby-icon.png`,
       },
     },
-
   ],
 }

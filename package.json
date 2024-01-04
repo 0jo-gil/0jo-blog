@@ -31,6 +31,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.16",
     "gatsby-plugin-postcss": "^6.13.0",
+    "gh-pages": "^6.1.1",
     "postcss": "^8.4.32",
     "prettier": "^2.8.8",
     "tailwindcss": "^3.4.0",
@@ -43,6 +44,7 @@
   "scripts": {
     "build": "gatsby build",
     "dev": "gatsby develop",
+    "deploy": "gatsby build && gh-pages -d public -b deploy",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\"",
     "start": "gatsby develop",
     "serve": "gatsby serve",

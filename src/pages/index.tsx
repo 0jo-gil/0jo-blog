@@ -1,11 +1,10 @@
 import * as React from "react"
-import {graphql, Link} from "gatsby"
+import {graphql} from "gatsby"
 
 import Layout from "components/Layout/Layout"
-import CategoriesUsage from "components/Categories/CategoriesUsage";
 
 import PostsList from "components/Posts/PostList";
-import {StInnerContainer} from "styles/common";
+import Section from "components/Section/Section";
 
 type Props = {
     location: {
@@ -49,14 +48,16 @@ const Home = ({
         <Layout
             title='Home'
         >
-            <StInnerContainer>
-                <CategoriesUsage nodes={edges}/>
-                <PostsList posts={edges}/>
+            <Section>
+                <Section.Title title={'Recent Posts'} link={{to: 'posts/list/1', text: 'more'}}/>
 
-                <div>
-                    <Link to={'/posts/list/1'}>더보기</Link>
-                </div>
-            </StInnerContainer>
+                <PostsList posts={edges}/>
+            </Section>
+            {/*<StInnerContainer>*/}
+
+            {/*    <CategoriesUsage nodes={edges}/>*/}
+
+            {/*</StInnerContainer>*/}
         </Layout>
     )
 }

@@ -3,6 +3,8 @@ import React from "react";
 import {StFlexRow, StInnerContainer} from "styles/common";
 import {StHeaderTitle} from "components/Header/style";
 import {Link} from "gatsby";
+import {FaGithub} from "react-icons/fa";
+import {MdEmail} from "react-icons/md";
 
 const Header: React.FC = () => {
     return (
@@ -14,11 +16,11 @@ const Header: React.FC = () => {
 
                 <StFlexRow>
                     <li>
-                        <a href="https://github.com/0jo-gil" target="_blank">GitHub</a>
+                        <a href="https://github.com/0jo-gil" target="_blank"><FaGithub/></a>
                     </li>
 
                     <li>
-                        <a href="mailto:0joofficial@gmail.com">Email</a>
+                        <a href="mailto:0joofficial@gmail.com"><MdEmail/></a>
                     </li>
                 </StFlexRow>
             </StInnerContainer>

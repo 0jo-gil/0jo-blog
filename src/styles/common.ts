@@ -6,19 +6,21 @@ type StyleProps = {
 }
 
 export const StInnerContainer = styled.div<StyleProps>`
-    width: 1080px;
-    margin: 0 auto;
-    ${({$style}) => $style}
+  width: 1080px;
+  margin: 0 auto;
+  ${({$style}) => $style}
 `;
 
-export const StFlexRow = styled.div`
-    display: flex;
-    flex-direction: row;
+export const StFlexRow = styled.div<StyleProps>`
+  display: flex;
+  flex-direction: row;
+  ${({$style}) => $style}
 `;
 
 
 export const StContentTitle = styled.h2`
   font-size: 22px;
   color: #000;
+  font-weight: bold;
 `;
 

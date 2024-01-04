@@ -1,62 +1,64 @@
 import * as React from "react"
-import { Link, graphql } from "gatsby"
+import {graphql, Link} from "gatsby"
 
 import Layout from "components/Layout/Layout"
 import CategoriesUsage from "components/Categories/CategoriesUsage";
 
 import PostsList from "components/Posts/PostList";
-
-import queryString from "query-string";
 import {StInnerContainer} from "styles/common";
 
 type Props = {
-  location: {
-    search: string;
-    href: string;
-  };
-  data: {
-    allMarkdownRemark: {
-      edges: SummaryProps[];
+    location: {
+        search: string;
+        href: string;
     };
-  };
+    data: {
+        allMarkdownRemark: {
+            edges: SummaryProps[];
+        };
+    };
 };
 
 export type SummaryProps = {
 
-  nodes: {
-    categories: string[];
-    title: string;
-    date: string;
-    summary: string;
-  }
+    nodes: {
+        categories: string[];
+        title: string;
+        date: string;
+        summary: string;
+    }
 }
 
 declare module "react" {
-  interface IntrinsicAttributes {
+    interface IntrinsicAttributes {
 
-    nodes?: SummaryProps[];
-  }
+        nodes?: SummaryProps[];
+    }
 }
 
 const Home = ({
-  location: {search, href},
-  data: {
-    allMarkdownRemark: {
-      edges,
-    }
-  },
-}: Props) => {
+                  // location: {search, href},
+                  data: {
+                      allMarkdownRemark: {
+                          edges,
+                      }
+                  },
+              }: Props) => {
 
-  return (
-    <Layout
-      title='Home'
-    >
-      <StInnerContainer>
-        <CategoriesUsage nodes={edges} />
-        <PostsList posts={edges}/>
-      </StInnerContainer>
-    </Layout>
-  )
+    return (
+        <Layout
+            title='Home'
+        >
+            <StInnerContainer>
+                <CategoriesUsage nodes={edges}/>
+                <PostsList posts={edges}/>
+
+                <div>
+                    <Link to={'/posts/list/1'}>더보기</Link>
+                </div>
+            </StInnerContainer>
+        </Layout>
+    )
 }
 
 export default Home;

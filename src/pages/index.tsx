@@ -5,6 +5,7 @@ import Layout from "components/Layout/Layout"
 
 import PostsList from "components/Posts/PostList";
 import Section from "components/Section/Section";
+import Profile from "components/Profile/Profile";
 
 type Props = {
     location: {
@@ -49,15 +50,14 @@ const Home = ({
             title='Home'
         >
             <Section>
+                <Profile/>
+            </Section>
+            
+            <Section>
                 <Section.Title title={'Recent Posts'} link={{to: 'posts/list/1', text: 'more'}}/>
 
                 <PostsList posts={edges}/>
             </Section>
-            {/*<StInnerContainer>*/}
-
-            {/*    <CategoriesUsage nodes={edges}/>*/}
-
-            {/*</StInnerContainer>*/}
         </Layout>
     )
 }

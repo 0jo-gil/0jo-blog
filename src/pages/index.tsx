@@ -1,62 +1,65 @@
 import * as React from "react"
-import { Link, graphql } from "gatsby"
+import {graphql} from "gatsby"
 
 import Layout from "components/Layout/Layout"
-import CategoriesUsage from "components/Categories/CategoriesUsage";
 
 import PostsList from "components/Posts/PostList";
-
-import queryString from "query-string";
-import {StInnerContainer} from "styles/common";
+import Section from "components/Section/Section";
 
 type Props = {
-  location: {
-    search: string;
-    href: string;
-  };
-  data: {
-    allMarkdownRemark: {
-      edges: SummaryProps[];
+    location: {
+        search: string;
+        href: string;
     };
-  };
+    data: {
+        allMarkdownRemark: {
+            edges: SummaryProps[];
+        };
+    };
 };
 
 export type SummaryProps = {
 
-  nodes: {
-    categories: string[];
-    title: string;
-    date: string;
-    summary: string;
-  }
+    nodes: {
+        categories: string[];
+        title: string;
+        date: string;
+        summary: string;
+    }
 }
 
 declare module "react" {
-  interface IntrinsicAttributes {
+    interface IntrinsicAttributes {
 
-    nodes?: SummaryProps[];
-  }
+        nodes?: SummaryProps[];
+    }
 }
 
 const Home = ({
-  location: {search, href},
-  data: {
-    allMarkdownRemark: {
-      edges,
-    }
-  },
-}: Props) => {
+                  // location: {search, href},
+                  data: {
+                      allMarkdownRemark: {
+                          edges,
+                      }
+                  },
+              }: Props) => {
 
-  return (
-    <Layout
-      title='Home'
-    >
-      <StInnerContainer>
-        <CategoriesUsage nodes={edges} />
-        <PostsList posts={edges}/>
-      </StInnerContainer>
-    </Layout>
-  )
+    return (
+        <Layout
+            title='Home'
+        >
+            <Section>
+                <Section.Title title={'Recent Posts'} link={{to: 'posts/list/1', text: 'more'}}/>
+
+                <PostsList posts={edges}/>
+            </Section>
+            {/*<StInnerContainer>*/}
+
+            {/*    <CategoriesUsage nodes={edges}/>*/}
+
+            {/*</StInnerContainer>*/}
+        </Layout>
+    )
 }
 
 export default Home;

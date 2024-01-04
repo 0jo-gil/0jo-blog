@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 export const StPostItemContainer = styled.div`
   display: flex;
   gap: 5%;
+  margin: 40px 0;
 `;
 
 export const StPostItemThumbnail = styled.div`
@@ -21,14 +22,14 @@ export const StPostItemHashTag = styled.div`
 
 export const StPostItemSummary = styled.p`
   font-size: 16px;
-  color: rgb(41,41,41);
+  color: rgb(41, 41, 41);
 `;
 
 
 // PostTemplate.tsx
 
 export const StPostTitleContainer = styled.div`
-    
+
 `;
 
 export const StPostTemplateTitle = styled.h1`
@@ -39,7 +40,7 @@ export const StPostTemplateTitle = styled.h1`
 
 export const StPostPreviewContainer = styled.div`
   margin-top: 60px;
-  
+
   * {
     font-family: 'BMHANNAAir';
     font-weight: 700;

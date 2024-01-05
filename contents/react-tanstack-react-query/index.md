@@ -3,7 +3,6 @@ title: "React Query 활용 방법"
 date: "2024-01-05"
 category: "React"
 summary: "왜? 나는 React Query의 다양한 기능을 사용하지 않았는가?"
-thumbnail: "",
 slug: "react-tanstack-react-query"
 ---
 

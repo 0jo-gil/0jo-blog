@@ -3,7 +3,6 @@ title: "React Design 패턴"
 date: "2024-01-03"
 category: "React"
 summary: "리액트 다양한 디자인 패턴에 대해 알아보자"
-thumbnail: "",
 slug: "react-design-patterns"
 ---
 

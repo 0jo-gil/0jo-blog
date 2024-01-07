@@ -1,12 +1,13 @@
 import ProfileDesc from "components/Profile/ProfileDesc";
 import ProfileImage from "components/Profile/ProfileImage";
+import { StProfileContainer } from "./style";
 
 const Profile = () => {
     return (
-        <div>
-            <ProfileImage/>
-            <ProfileDesc/>
-        </div>
+        <StProfileContainer>
+            <ProfileImage />
+            <ProfileDesc />
+        </StProfileContainer>
     )
 }
 

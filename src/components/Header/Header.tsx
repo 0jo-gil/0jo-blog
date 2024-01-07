@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
 import React from "react";
-import {StFlexRow, StInnerContainer} from "styles/common";
-import {StHeaderTitle} from "components/Header/style";
-import {Link} from "gatsby";
-import {FaGithub} from "react-icons/fa";
-import {MdEmail} from "react-icons/md";
+import { StFlexRow, StInnerContainer } from "styles/common";
+import { StHeaderTitle } from "components/Header/style";
+import { Link } from "gatsby";
+import { FaGithub } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
 
 const Header: React.FC = () => {
     return (
@@ -14,15 +14,7 @@ const Header: React.FC = () => {
                     <StHeaderTitle>0jo's dev blog</StHeaderTitle>
                 </Link>
 
-                <StFlexRow>
-                    <li>
-                        <a href="https://github.com/0jo-gil" target="_blank"><FaGithub/></a>
-                    </li>
 
-                    <li>
-                        <a href="mailto:0joofficial@gmail.com"><MdEmail/></a>
-                    </li>
-                </StFlexRow>
             </StInnerContainer>
         </StHeader>
     )

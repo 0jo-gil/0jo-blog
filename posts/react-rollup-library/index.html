@@ -10,382 +10,345 @@
 
         gtag('config', 'G-H4CKQGN494', {"send_page_view":false});
       }
-      </script></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div><style data-emotion="css 3gwc8a">.css-3gwc8a{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;height:60px;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}</style><header class="css-3gwc8a e17soa3h0"><style data-emotion="css 1rn2kuj">.css-1rn2kuj{width:1080px;margin:0 auto;}</style><div class="flex flex-row justify-between items-center css-1rn2kuj e1o6ocx12"><a href="/"><style data-emotion="css zrtxp">.css-zrtxp{font-size:28px;font-weight:bold;font-family:'BMHANNAPro';}</style><h1 class="css-zrtxp e1j5aiyv0">0jo&#x27;s dev blog</h1></a></div></header><div><style data-emotion="css 1tu5tl0">.css-1tu5tl0{width:1080px;margin:0 auto;padding:80px 0;}</style><div class="css-1tu5tl0 e1o6ocx12"><div class="css-0 ej6cxde2"><style data-emotion="css 1r0e7c9">.css-1r0e7c9{font-size:14px;color:rgb(0, 198, 142);font-family:'BMHANNAPro';}</style><div class="css-1r0e7c9 ej6cxde4">React</div><style data-emotion="css 19e9ir4">.css-19e9ir4{font-size:38px;font-weight:bold;font-family:'BMHANNAPro';}</style><h1 class="css-19e9ir4 ej6cxde1">React Hooks 동작 원리</h1></div><style data-emotion="css tmj2cy">.css-tmj2cy{margin-top:60px;}.css-tmj2cy *{font-family:'BMHANNAAir';font-weight:700;}</style><div class="css-tmj2cy ej6cxde0"><div data-color-mode="light" class="wmde-markdown wmde-markdown-color "><p>무심코 사용하던 React hook 동작 원리를 하나씩 자세하게 파헤쳐 보려고 한다.</p>
-<p>React hook은 v16.8에서 추가된 기능이다.</p>
-<p>현재 React를 사용하는 개발자라면 누구나 함수형 컴포넌트를 통해 개발을 하고 당연히 React에서 제공하는 훅을 사용할 것이다.</p>
-<h2 id="1-클로저-closure"><a class="anchor" aria-hidden="true" tabindex="-1" href="#1-클로저-closure"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>1. 클로저 (Closure)</h2>
-<h3 id="클로저란"><a class="anchor" aria-hidden="true" tabindex="-1" href="#클로저란"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>클로저란?</h3>
-<p>Javascript 개발자라면 익숙할 개념 클로저에 대해 간단하게 살펴보자.</p>
-<blockquote>
-<p>함수가 선언된 시점의 스코프에서 변수를 참조할 수 있는 자바스크립트의 특성</p>
-</blockquote>
-<ol>
-<li>
-<p>컴파일 단계에서 변수, 함수 등이 메모리에 저장되고 이 과정에서 함수는 자신이 선언된 시점의 스코프를 기억한다.</p>
-</li>
-<li>
-<p>함수가 호출되면, 해당 함수 실행 컨텍스트 생성되고 이때 실행 컨텍스트에는 함수 스코프 체인, 함수 내부 변수, this 정보 등 포함</p>
-</li>
-<li>
-<p>함수 내부에서 외부 함수 변수를 참조하면 현재 함수 스코프 체인을 따라가 해당 변수를 찾는다. (함수 스코프 -&gt; 외부함수 스코프 -&gt; 전역 스코프 순)</p>
-</li>
-<li>
-<p>함수가 종료되어도 함수가 참조하고 있던 외부 변수가 다른 곳에서 사용되고 있다면,   그 변수는 메모리에서 해체 되지 않는다. 즉, 함수 종료 후에도 함수 실행 컨텍스트에 포함되었던 외부 변수에 접근할 수 있는 것이 클로저이다.</p>
-</li>
-</ol>
-<pre><code class="code-highlight"><span class="code-line">function outer() {
-</span><span class="code-line">	const x = 1;
-</span><span class="code-line">    const inner = () =&gt; {
-</span><span class="code-line">    	console.log(x);
-</span><span class="code-line">    }
-</span><span class="code-line">    inner();
-</span><span class="code-line">}
-</span><span class="code-line">
-</span><span class="code-line">outer();
-</span></code><div class="copied" data-code="function outer() {
-	const x = 1;
-    const inner = () =&gt; {
-    	console.log(x);
-    }
-    inner();
-}
-
-outer();
+      </script></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div><style data-emotion="css 3gwc8a">.css-3gwc8a{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;height:60px;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}</style><header class="css-3gwc8a e17soa3h0"><style data-emotion="css 1rn2kuj">.css-1rn2kuj{width:1080px;margin:0 auto;}</style><div class="flex flex-row justify-between items-center css-1rn2kuj e1o6ocx12"><a href="/"><style data-emotion="css zrtxp">.css-zrtxp{font-size:28px;font-weight:bold;font-family:'BMHANNAPro';}</style><h1 class="css-zrtxp e1j5aiyv0">0jo&#x27;s dev blog</h1></a></div></header><div><style data-emotion="css 1tu5tl0">.css-1tu5tl0{width:1080px;margin:0 auto;padding:80px 0;}</style><div class="css-1tu5tl0 e1o6ocx12"><div class="css-0 ej6cxde2"><style data-emotion="css 1r0e7c9">.css-1r0e7c9{font-size:14px;color:rgb(0, 198, 142);font-family:'BMHANNAPro';}</style><div class="css-1r0e7c9 ej6cxde4">React</div><style data-emotion="css 19e9ir4">.css-19e9ir4{font-size:38px;font-weight:bold;font-family:'BMHANNAPro';}</style><h1 class="css-19e9ir4 ej6cxde1">React Rollup 라이브러리</h1></div><style data-emotion="css tmj2cy">.css-tmj2cy{margin-top:60px;}.css-tmj2cy *{font-family:'BMHANNAAir';font-weight:700;}</style><div class="css-tmj2cy ej6cxde0"><div data-color-mode="light" class="wmde-markdown wmde-markdown-color "><p>다양한 프로젝트를 진행하면서 조금 더 생산성있고 확장 가능한 라이브러리 개발에 대한 필요성을 느꼈다.
+npm에 배포된 다양한 라이브러리를 사용하면서 어떤 환경에서 개발되었는지, 어떤 방식으로 개발해야할지 고민을 했다.
+나름의 보일러플레이트를 만들어두고 환경을 구성하면서 겪었던 시행착오를 기록하려고 한다.</p>
+<p>추후 해당 보일러플레이트를 활용하여 나만의 디자인 시스템 라이브러리를 우선적으로 개발해보려고 한다.</p>
+<p>우선적으로, 사용하는 환경은 React, TypeScript, Rollup을 통한 개발이므로 필요 패키지 설치를 진행한다.</p>
+<h3 id="1-react-환경"><a class="anchor" aria-hidden="true" tabindex="-1" href="#1-react-환경"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>1. React 환경</h3>
+<p>React, react-dom은 <code>peerDependencies</code>로 설치한다. (실제 패키지에 직접 import하지 않고 호환성이 필요한 경우)</p>
+<pre><code class="code-highlight"><span class="code-line">yarn add --peer react react-dom
+</span><span class="code-line">yarn add -D @types/react @types/react-dom
+</span></code><div class="copied" data-code="yarn add --peer react react-dom
+yarn add -D @types/react @types/react-dom
 "><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<p>위 코드에서 outer 함수는 종료되었지만, outer 함수 내부에서 선언된 x 변수는 inner 함수에서 참고하고 있기 때문에 메모리에서 해제되지 않는다.</p>
-<p>이후 inner 함수를 호출하면 자신이 선언되었던 시점의 스코프를 기억하고 있으므로 x에 접근하여 값을 출력할 수   있다.</p>
-<p><em><strong>함수가 선언된 스코프를 &#x27;기억&#x27;하고 그 스코프 변수에 접근할 수 있는 특성이 클로저이다.</strong></em></p>
-<h3 id="클로저-활용-예시"><a class="anchor" aria-hidden="true" tabindex="-1" href="#클로저-활용-예시"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>클로저 활용 예시</h3>
-<h4 id="클로저를-사용하지-않는-경우"><a class="anchor" aria-hidden="true" tabindex="-1" href="#클로저를-사용하지-않는-경우"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>클로저를 사용하지 않는 경우</h4>
-<pre><code class="code-highlight"><span class="code-line">let count = 0;
-</span><span class="code-line">
-</span><span class="code-line">function increase() {
-</span><span class="code-line">	count++;
-</span><span class="code-line">    console.log(count);
-</span><span class="code-line">}
-</span><span class="code-line">
-</span><span class="code-line">increase(); // 1
-</span><span class="code-line">increase(); // 2
-</span><span class="code-line">
-</span><span class="code-line">// 코드에서 count를 변경하면  예상치 못한 결과 출력
-</span><span class="code-line">count = 100;
-</span><span class="code-line">increase(); // 101
-</span></code><div class="copied" data-code="let count = 0;
-
-function increase() {
-	count++;
-    console.log(count);
-}
-
-increase(); // 1
-increase(); // 2
-
-// 코드에서 count를 변경하면 예상치 못한 결과 출력
-count = 100;
-increase(); // 101
-"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<p>위 코드에서 count는 전역 변수로 increase 함수에서 사용되고 있고, 프로그램이 실행되는 도중 어떤 다른 코드에서 count가 변경이 되면 count값이 의도치 않게 변경될 수 있다.</p>
-<h4 id="클로저를-사용하는-경우"><a class="anchor" aria-hidden="true" tabindex="-1" href="#클로저를-사용하는-경우"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>클로저를 사용하는 경우</h4>
-<pre><code class="code-highlight"><span class="code-line">function createCount() {
-</span><span class="code-line">	let count = 0;
-</span><span class="code-line">
-</span><span class="code-line">    return function increase() {
-</span><span class="code-line">    	count++;
-</span><span class="code-line">        console.log(count);
-</span><span class="code-line">    }
-</span><span class="code-line">}
-</span><span class="code-line">
-</span><span class="code-line">const counter = createCount();
-</span><span class="code-line">
-</span><span class="code-line">counter(); // 1
-</span><span class="code-line">counter(); // 2
-</span><span class="code-line">counter(); // 3
-</span><span class="code-line">
-</span></code><div class="copied" data-code="function createCount() {
-	let count = 0;
-
-    return function increase() {
-    	count++;
-        console.log(count);
-    }
-}
-
-const counter = createCount();
-
-counter(); // 1
-counter(); // 2
-counter(); // 3
-
-"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<p>위 코드에서 createCount 함수는 increase 함수를 반환한다. increase 함수는 변수 count를 참조하고 있고 createCount 함수가 종료된 이후에도 count에 접근이 가능하다. 이렇게 선언된 count 변수는 외부에서 변경할 수 없다. 또한 이렇게 함수는 선언된 스코프 시점을 기억한다.</p>
 <hr/>
-<h2 id="2-usestate-구현"><a class="anchor" aria-hidden="true" tabindex="-1" href="#2-usestate-구현"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>2. useState 구현</h2>
-<h3 id="기본적인-형태"><a class="anchor" aria-hidden="true" tabindex="-1" href="#기본적인-형태"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>기본적인 형태</h3>
-<pre><code class="code-highlight"><span class="code-line">function useState(initialValue) {
-</span><span class="code-line">	let _val = initialValue;
-</span><span class="code-line">
-</span><span class="code-line">    function state() {
-</span><span class="code-line">    	return _val;
-</span><span class="code-line">    }
-</span><span class="code-line">
-</span><span class="code-line">    function setState(newVal) {
-</span><span class="code-line">    	_val = newVal;
-</span><span class="code-line">    }
-</span><span class="code-line">
-</span><span class="code-line">    return [state, setState]
-</span><span class="code-line">}
-</span><span class="code-line">
-</span><span class="code-line">const [getCount, setCount] = useState(0);
-</span><span class="code-line">
-</span><span class="code-line">console.log(getCount()); // 0
-</span><span class="code-line">setCount(1);
-</span><span class="code-line">console.log(getCount()); // 1
-</span></code><div class="copied" data-code="function useState(initialValue) {
-	let _val = initialValue;
-
-    function state() {
-    	return _val;
-    }
-
-    function setState(newVal) {
-    	_val = newVal;
-    }
-
-    return [state, setState]
-}
-
-const [getCount, setCount] = useState(0);
-
-console.log(getCount()); // 0
-setCount(1);
-console.log(getCount()); // 1
+<h3 id="2-typescript-환경"><a class="anchor" aria-hidden="true" tabindex="-1" href="#2-typescript-환경"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>2. TypeScript 환경</h3>
+<p><strong>TypeScript install</strong></p>
+<pre><code class="code-highlight"><span class="code-line">yarn add -D typescript
+</span></code><div class="copied" data-code="yarn add -D typescript
 "><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<p>위 코드는 useState의 가장 기본적인 형태를 구현했다. 함수 내부에 state와 setState 두 개의 내부함수가 있다. state는 _val을 반환하고 setState는 업데이트를 위해 전달 된 newVal의 값으로 업데이트한다.</p>
-<h3 id="함수형-컴포넌트-모듈"><a class="anchor" aria-hidden="true" tabindex="-1" href="#함수형-컴포넌트-모듈"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>함수형 컴포넌트 (모듈)</h3>
-<pre><code class="code-highlight"><span class="code-line">const MyComp = (() =&gt; {
-</span><span class="code-line">	let _val;
-</span><span class="code-line">
-</span><span class="code-line">    return {
-</span><span class="code-line">    	render(Component) {
-</span><span class="code-line">        	const Comp = Component();
-</span><span class="code-line">
-</span><span class="code-line">            Comp.render();
-</span><span class="code-line">            return Comp
-</span><span class="code-line">        },
-</span><span class="code-line">        useState(initialValue) {
-</span><span class="code-line">        	_val = _val || initialValue;
-</span><span class="code-line">
-</span><span class="code-line">            function setState(newVal) {
-</span><span class="code-line">            	_val = newVal;
-</span><span class="code-line">            }
-</span><span class="code-line">
-</span><span class="code-line">            return [_val, setState]
-</span><span class="code-line">        }
-</span><span class="code-line">    }
+<p><strong>TypeScript 설정</strong></p>
+<p>루트 디렉토리에 tsconfig.json 파일을 생성하고 아래 내용을 추가한다.
+실제 필요한 설  정은 각 프로젝트 성격에 맞게 설정하여 사용한다.</p>
+<pre><code class="code-highlight"><span class="code-line">{
+</span><span class="code-line">  &quot;compilerOptions&quot;: {
+</span><span class="code-line">    &quot;target&quot;: &quot;es6&quot;,
+</span><span class="code-line">    &quot;baseUrl&quot;: &quot;./&quot;,
+</span><span class="code-line">    &quot;esModuleInterop&quot;: true,
+</span><span class="code-line">    &quot;forceConsistentCasingInFileNames&quot;: true,
+</span><span class="code-line">    &quot;strict&quot;: true,
+</span><span class="code-line">    &quot;skipLibCheck&quot;: true,
+</span><span class="code-line">    &quot;jsx&quot;: &quot;react-jsx&quot;,
+</span><span class="code-line">    &quot;module&quot;: &quot;ESNext&quot;,
+</span><span class="code-line">    &quot;declaration&quot;: true,
+</span><span class="code-line">    &quot;declarationDir&quot;: &quot;./dist&quot;,
+</span><span class="code-line">    &quot;sourceMap&quot;: true,
+</span><span class="code-line">    &quot;outDir&quot;: &quot;./dist&quot;,
+</span><span class="code-line">    &quot;moduleResolution&quot;: &quot;node&quot;,
+</span><span class="code-line">    &quot;allowSyntheticDefaultImports&quot;: true,
+</span><span class="code-line">    &quot;emitDeclarationOnly&quot;: true,
+</span><span class="code-line">    &quot;removeComments&quot;: true
+</span><span class="code-line">  },
+</span><span class="code-line">  &quot;paths&quot;: {
+</span><span class="code-line">    &quot;@/*&quot;: [&quot;packages/*&quot;]
+</span><span class="code-line">  },
+</span><span class="code-line">  &quot;include&quot;: [
+</span><span class="code-line">    &quot;src/**/*&quot;,
+</span><span class="code-line">    &quot;**/*.tsx&quot;,
+</span><span class="code-line">    &quot;packages&quot;
+</span><span class="code-line">  ],
+</span><span class="code-line">  &quot;exclude&quot;: [
+</span><span class="code-line">    &quot;*.config.js&quot;,
+</span><span class="code-line">    &quot;packages/**/node_modules/*.d.ts&quot;,
+</span><span class="code-line">    &quot;**/dist/**/*&quot;,
+</span><span class="code-line">    &quot;node_modules/*.d.ts&quot;,
+</span><span class="code-line">  ],
+</span><span class="code-line">  &quot;types&quot;: [
+</span><span class="code-line">    &quot;jest&quot;
+</span><span class="code-line">  ]
 </span><span class="code-line">}
-</span><span class="code-line">
-</span></code><div class="copied" data-code="const MyComp = (() =&gt; {
-	let _val;
-
-    return {
-    	render(Component) {
-        	const Comp = Component();
-
-            Comp.render();
-            return Comp
-        },
-        useState(initialValue) {
-        	_val = _val || initialValue;
-
-            function setState(newVal) {
-            	_val = newVal;
-            }
-
-            return [_val, setState]
-        }
-    }
-}
-
-"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<pre><code class="code-highlight"><span class="code-line">// 활용
-</span><span class="code-line">const Component = () =&gt; {
-</span><span class="code-line">	const [count, setCount] = MyComp.useState(0);
-</span><span class="code-line">
-</span><span class="code-line">    return {
-</span><span class="code-line">    	onClick: () =&gt; setCount(count + 1),
-</span><span class="code-line">        render: () =&gt; console.log(&#x27;render: &#x27;, {count})
-</span><span class="code-line">    }
-</span><span class="code-line">}
-</span></code><div class="copied" data-code="// 활용
-const Component = () =&gt; {
-	const [count, setCount] = MyComp.useState(0);
-
-    return {
-    	onClick: () =&gt; setCount(count + 1),
-        render: () =&gt; console.log(&#x27;render: &#x27;, {count})
-    }
+</span></code><div class="copied" data-code="{
+  &quot;compilerOptions&quot;: {
+    &quot;target&quot;: &quot;es6&quot;,
+    &quot;baseUrl&quot;: &quot;./&quot;,
+    &quot;esModuleInterop&quot;: true,
+    &quot;forceConsistentCasingInFileNames&quot;: true,
+    &quot;strict&quot;: true,
+    &quot;skipLibCheck&quot;: true,
+    &quot;jsx&quot;: &quot;react-jsx&quot;,
+    &quot;module&quot;: &quot;ESNext&quot;,
+    &quot;declaration&quot;: true,
+    &quot;declarationDir&quot;: &quot;./dist&quot;,
+    &quot;sourceMap&quot;: true,
+    &quot;outDir&quot;: &quot;./dist&quot;,
+    &quot;moduleResolution&quot;: &quot;node&quot;,
+    &quot;allowSyntheticDefaultImports&quot;: true,
+    &quot;emitDeclarationOnly&quot;: true,
+    &quot;removeComments&quot;: true
+  },
+  &quot;paths&quot;: {
+    &quot;@/*&quot;: [&quot;packages/*&quot;]
+  },
+  &quot;include&quot;: [
+    &quot;src/**/*&quot;,
+    &quot;**/*.tsx&quot;,
+    &quot;packages&quot;
+  ],
+  &quot;exclude&quot;: [
+    &quot;*.config.js&quot;,
+    &quot;packages/**/node_modules/*.d.ts&quot;,
+    &quot;**/dist/**/*&quot;,
+    &quot;node_modules/*.d.ts&quot;,
+  ],
+  &quot;types&quot;: [
+    &quot;jest&quot;
+  ]
 }
 "><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
 <hr/>
-<h2 id="3-useeffect-구현"><a class="anchor" aria-hidden="true" tabindex="-1" href="#3-useeffect-구현"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>3. useEffect 구현</h2>
-<h3 id="기본형태"><a class="anchor" aria-hidden="true" tabindex="-1" href="#기본형태"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>기본형태</h3>
-<pre><code class="code-highlight"><span class="code-line">function useEffect(callback, deps) {
-</span><span class="code-line">	let _deps; // 이전 의존성 배열 저장
-</span><span class="code-line">
-</span><span class="code-line">    const hasNoDeps = !deps; // 의존성 배열이 없는 경우
-</span><span class="code-line">    const hasChangedDeps = _deps ? !deps.every((el, i) =&gt; el === _deps[i]) : true; // 의존성 배열이 변경된 경우
-</span><span class="code-line">
-</span><span class="code-line">    if(hasNoDeps || hasChangedDeps) {
-</span><span class="code-line">    	callback(); // 사이드 이펙트를 수행하는 함수 실행
-</span><span class="code-line">        _deps = deps; // 의존성 배열 업데이트
-</span><span class="code-line">    }
-</span><span class="code-line">}
-</span></code><div class="copied" data-code="function useEffect(callback, deps) {
-	let _deps; // 이전 의존성 배열 저장
-
-    const hasNoDeps = !deps; // 의존성 배열이 없는 경우
-    const hasChangedDeps = _deps ? !deps.every((el, i) =&gt; el === _deps[i]) : true; // 의존성 배열이 변경된 경우
-
-    if(hasNoDeps || hasChangedDeps) {
-    	callback(); // 사이드 이펙트를 수행하는 함수 실행
-        _deps = deps; // 의존성 배열 업데이트
-    }
-}
+<h3 id="3-rollup-환경"><a class="anchor" aria-hidden="true" tabindex="-1" href="#3-rollup-환경"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>3. Rollup 환경</h3>
+<p><strong>Rollup 플러그인 설치</strong></p>
+<pre><code class="code-highlight"><span class="code-line">yarn add -D rollup rollup-plugin-typescript2 @rollup/plugin-commonjs @rollup/plugin-node-resolve rollup-plugin-peer-deps-external @rollup/plugin-imge @rollup/plugin-alias @rollup/plugin-babel
+</span></code><div class="copied" data-code="yarn add -D rollup rollup-plugin-typescript2 @rollup/plugin-commonjs @rollup/plugin-node-resolve rollup-plugin-peer-deps-external @rollup/plugin-imge @rollup/plugin-alias @rollup/plugin-babel
 "><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<p>위 코드에서 useEffect는 첫번째 인자로 받은 콜백함수를 실행한다. 이 때, 의존성 배열이 없거나 이전에 저장한 의존성 배열과 다를 경우 콜백함수를 실행한다.</p>
-<p>위와 같이 의존성 배열 값이 변경될 때만 사이드 이펙트를 수행하는데 이는 우리가 흔히 사용하는 react에서 제공하는 훅인 useEffect와 똑같은 기능을 수행한다고 볼 수 있다.</p>
-<h3 id="함수형-컴포넌트-모듈-1"><a class="anchor" aria-hidden="true" tabindex="-1" href="#함수형-컴포넌트-모듈-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>함수형 컴포넌트 (모듈)</h3>
-<pre><code class="code-highlight"><span class="code-line">const MyComp = () =&gt; {
-</span><span class="code-line">	let _val, _deps;
+<p>위에 알 수 없는 패키지 리스트를 <code>devDependencies</code> 로 설치했는데 리스트를 간단하게 정리하면 아래와 같다.</p>
+<ul>
+<li>rollup-plugin-typescript2: TypeScript 파일을 컴파일하는 rollup 플러그인</li>
+<li>@rollup/plugin-commonjs: CommonJS 모듈을 ES6로 변환하는 rollup 플러그인</li>
+<li>@rollup/plugin-node-resolve: node_modules에서 모듈을 불러오는 rollup 플러그인</li>
+<li>rollup-plugin-peer-deps-external: peerDependencies로 설치된 패키지를 external로 설정하는 rollup 플러그인 (번들링 결과에 포함하지 않고 import로 사용)</li>
+<li>@rollup-plugin-image: 이미지 파일을 불러오는 rollup 플러그인</li>
+</ul>
+<p><strong>rollup.config.js</strong>
+루트 디렉토리에 rollup.config.js 파일을 생성하고 아래 내용을 추가한다.</p>
+<pre><code class="code-highlight"><span class="code-line">import peerDepsExternal from &#x27;rollup-plugin-peer-deps-external&#x27;;
+</span><span class="code-line">import resolve from &#x27;@rollup/plugin-node-resolve&#x27;;
+</span><span class="code-line">import commonjs from &#x27;@rollup/plugin-commonjs&#x27;;
+</span><span class="code-line">import typescript from &#x27;@rollup/plugin-typescript&#x27;;
+</span><span class="code-line">import babel from &#x27;@rollup/plugin-babel&#x27;;
+</span><span class="code-line">import postcss from &#x27;rollup-plugin-postcss&#x27;;
+</span><span class="code-line">import dts from &#x27;rollup-plugin-dts&#x27;;
 </span><span class="code-line">
-</span><span class="code-line">    return {
-</span><span class="code-line">    	render(Component) {
-</span><span class="code-line">        	const Comp = Component();
+</span><span class="code-line">const packageJson = require(&#x27;./package.json&#x27;);
+</span><span class="code-line">const extensions = [&#x27;js&#x27;, &#x27;jsx&#x27;, &#x27;ts&#x27;, &#x27;tsx&#x27;];
 </span><span class="code-line">
-</span><span class="code-line">            Comp.render();
-</span><span class="code-line">            reurn Comp;
-</span><span class="code-line">        },
-</span><span class="code-line">        useEffect(callback, deps) {
-</span><span class="code-line">        	const hasNoDeps = !deps;
-</span><span class="code-line">            const hasChangedDeps = _deps ? !deps.every((el, i) =&gt; el === _deps[i]) : true;
+</span><span class="code-line">export default [
+</span><span class="code-line">  {
+</span><span class="code-line">    input: &#x27;src/index.ts&#x27;,
+</span><span class="code-line">    output: [
+</span><span class="code-line">      {
+</span><span class="code-line">        file: packageJson.main,
+</span><span class="code-line">        format: &#x27;cjs&#x27;,
+</span><span class="code-line">        sourcemap: true,
+</span><span class="code-line">      },
+</span><span class="code-line">      {
+</span><span class="code-line">        file: packageJson.module,
+</span><span class="code-line">        format: &#x27;esm&#x27;,
+</span><span class="code-line">        sourcemap: true,
+</span><span class="code-line">      },
+</span><span class="code-line">    ],
+</span><span class="code-line">    plugins: [
+</span><span class="code-line">      dts,
+</span><span class="code-line">      peerDepsExternal(),
+</span><span class="code-line">      resolve({ extensions }),
+</span><span class="code-line">      babel({
+</span><span class="code-line">        extensions,
+</span><span class="code-line">        include: [&#x27;packages/src/**/*&#x27;],
+</span><span class="code-line">        exclude: /node_modules/,
+</span><span class="code-line">        babelHelpers: &#x27;runtime&#x27;,
+</span><span class="code-line">      }),
+</span><span class="code-line">      commonjs({
+</span><span class="code-line">        include: /node_modules/,
+</span><span class="code-line">      }),
+</span><span class="code-line">      postcss({
+</span><span class="code-line">        extract: true,
+</span><span class="code-line">        extract: &#x27;index.css&#x27;,
+</span><span class="code-line">      }),
+</span><span class="code-line">      typescript({
 </span><span class="code-line">
-</span><span class="code-line">            if(hasNoDeps || hasChangedDeps) {
-</span><span class="code-line">            	callback();
-</span><span class="code-line">                _deps = deps;
-</span><span class="code-line">            }
-</span><span class="code-line">        },
-</span><span class="code-line">        useState(initialValue) {
-</span><span class="code-line">        	_val = _val || initialValue;
-</span><span class="code-line">
-</span><span class="code-line">            function setState(newVal) {
-</span><span class="code-line">            	_val = newVal;
-</span><span class="code-line">            }
-</span><span class="code-line">
-</span><span class="code-line">            return [_val, setState]
-</span><span class="code-line">        }
-</span><span class="code-line">    }
-</span><span class="code-line">}
-</span></code><div class="copied" data-code="const MyComp = () =&gt; {
-	let _val, _deps;
+</span><span class="code-line">      })
+</span><span class="code-line">    ],
+</span><span class="code-line">    external: [&#x27;react&#x27;, &#x27;react-dom&#x27;, &#x27;styled-components&#x27;]
+</span><span class="code-line">  }
+</span><span class="code-line">];
+</span></code><div class="copied" data-code="import peerDepsExternal from &#x27;rollup-plugin-peer-deps-external&#x27;;
+import resolve from &#x27;@rollup/plugin-node-resolve&#x27;;
+import commonjs from &#x27;@rollup/plugin-commonjs&#x27;;
+import typescript from &#x27;@rollup/plugin-typescript&#x27;;
+import babel from &#x27;@rollup/plugin-babel&#x27;;
+import postcss from &#x27;rollup-plugin-postcss&#x27;;
+import dts from &#x27;rollup-plugin-dts&#x27;;
 
-    return {
-    	render(Component) {
-        	const Comp = Component();
+const packageJson = require(&#x27;./package.json&#x27;);
+const extensions = [&#x27;js&#x27;, &#x27;jsx&#x27;, &#x27;ts&#x27;, &#x27;tsx&#x27;];
 
-            Comp.render();
-            reurn Comp;
-        },
-        useEffect(callback, deps) {
-        	const hasNoDeps = !deps;
-            const hasChangedDeps = _deps ? !deps.every((el, i) =&gt; el === _deps[i]) : true;
+export default [
+  {
+    input: &#x27;src/index.ts&#x27;,
+    output: [
+      {
+        file: packageJson.main,
+        format: &#x27;cjs&#x27;,
+        sourcemap: true,
+      },
+      {
+        file: packageJson.module,
+        format: &#x27;esm&#x27;,
+        sourcemap: true,
+      },
+    ],
+    plugins: [
+      dts,
+      peerDepsExternal(),
+      resolve({ extensions }),
+      babel({
+        extensions,
+        include: [&#x27;packages/src/**/*&#x27;],
+        exclude: /node_modules/,
+        babelHelpers: &#x27;runtime&#x27;,
+      }),
+      commonjs({
+        include: /node_modules/,
+      }),
+      postcss({
+        extract: true,
+        extract: &#x27;index.css&#x27;,
+      }),
+      typescript({
 
-            if(hasNoDeps || hasChangedDeps) {
-            	callback();
-                _deps = deps;
-            }
-        },
-        useState(initialValue) {
-        	_val = _val || initialValue;
-
-            function setState(newVal) {
-            	_val = newVal;
-            }
-
-            return [_val, setState]
-        }
-    }
-}
+      })
+    ],
+    external: [&#x27;react&#x27;, &#x27;react-dom&#x27;, &#x27;styled-components&#x27;]
+  }
+];
 "><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<pre><code class="code-highlight"><span class="code-line">// 활용
-</span><span class="code-line">const Component = () =&gt; {
-</span><span class="code-line">	const [count, setCount] = MyComp.useState(0);
-</span><span class="code-line">
-</span><span class="code-line">    MyComp.useEffect(() =&gt; {
-</span><span class="code-line">    	console.log(&#x27;effect&#x27;, count);
-</span><span class="code-line">    }, [count])
-</span><span class="code-line">
-</span><span class="code-line">    return {
-</span><span class="code-line">    	onClick: () =&gt; setCount(count + 1),
-</span><span class="code-line">        noop: () =&gt; setCount(count),
-</span><span class="code-line">        render: () =&gt; console.log(&#x27;render: &#x27;, {count})
-</span><span class="code-line">    }
+<p>위 설정은 아래와 같은 역할을 한다.</p>
+<ul>
+<li>
+<p><code>input</code>: 각 src/index.ts 파일을 받아와서 번들링한다.</p>
+</li>
+<li>
+<p><code>output</code>: 번들링 결과를 cjs, esm 형태로 내보낸다.</p>
+</li>
+<li>
+<p><code>extensions</code>: 번들링할 파일의 확장자를 지정한다.</p>
+</li>
+</ul>
+<p>추가적으로 import한 다양한 라이브러리의 역할은 위 의존성 설치에서 설명한바와 같다.</p>
+<p>그리고 빌드를 위한 명령어를 package.json에 추가한다.</p>
+<pre><code class="code-highlight"><span class="code-line">&quot;scripts&quot;: {
+</span><span class="code-line">    ...
+</span><span class="code-line">    &quot;build&quot;: &quot;rollup -c --bundleConfigAsCjs&quot;,
+</span><span class="code-line">    ...
 </span><span class="code-line">}
-</span><span class="code-line">
-</span><span class="code-line">let App;
-</span><span class="code-line">
-</span><span class="code-line">App = MyReact.render(Component)
-</span><span class="code-line">// effect 0
-</span><span class="code-line">// render: {count: 0}
-</span><span class="code-line">
-</span><span class="code-line">App.onClick()
-</span><span class="code-line">App = MyReact.render(Component)
-</span><span class="code-line">// effect 1
-</span><span class="code-line">// render: {count: 1}
-</span><span class="code-line">
-</span><span class="code-line">App.noop()
-</span><span class="code-line">App = MyReact.render(Component)
-</span><span class="code-line">// useEffect가 실행되지 않음
-</span><span class="code-line">// render {count: 1}
-</span><span class="code-line">
-</span></code><div class="copied" data-code="// 활용
-const Component = () =&gt; {
-	const [count, setCount] = MyComp.useState(0);
-
-    MyComp.useEffect(() =&gt; {
-    	console.log(&#x27;effect&#x27;, count);
-    }, [count])
-
-    return {
-    	onClick: () =&gt; setCount(count + 1),
-        noop: () =&gt; setCount(count),
-        render: () =&gt; console.log(&#x27;render: &#x27;, {count})
-    }
+</span></code><div class="copied" data-code="&quot;scripts&quot;: {
+    ...
+    &quot;build&quot;: &quot;rollup -c --bundleConfigAsCjs&quot;,
+    ...
 }
-
-let App;
-
-App = MyReact.render(Component)
-// effect 0
-// render: {count: 0}
-
-App.onClick()
-App = MyReact.render(Component)
-// effect 1
-// render: {count: 1}
-
-App.noop()
-App = MyReact.render(Component)
-// useEffect가 실행되지 않음
-// render {count: 1}
-
 "><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
 <hr/>
-<h2 id="결론"><a class="anchor" aria-hidden="true" tabindex="-1" href="#결론"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>결론</h2>
-<p>단순히 &#x27;<del><em>React에서 사용하라고 했으니까 사용해야지</em></del>&#x27; 라고 생각하며 사용했던 다양한 기능이 미약하게나마 이해할 수 있었다.</p>
-<p>리액트 훅은 컴포넌트의 최상단에서만 사용되어야 하는 이유를 조금은 이해할 수 있었다.</p>
-<p><strong>호출의 일관성</strong>: 리액트는 훅의 호출 순서를 기억하고 이를 통해 상태와 사이드 이펙트를 관리하는데 만약 훅이 조건문, 반복문, 함수 등에 의해 순서가 바뀐다면, 이전에 기억한 훅의 상태와 현재 훅의 상태를 매칭하지 못하기 때문에 예상치 못한 문제가 발생한다.</p>
-<p><strong>상태 관리</strong>: 위에서 살펴본 useState나 useEffect 같은 훅은 내부적으로 클로저를 이용하여 상태를 관리하는데 각 훅의 호출 순서에 따라 독립적인 상태를 생성하고 관리한다. 만약 훅의 호출 순서가 바뀌면 각 상태는 잘못된 위치에서 관리될 가능성이 있다.</p>
-<p><strong>위 내용은 <a href="https://hewonjeong.github.io/deep-dive-how-do-react-hooks-really-work-ko/">링크</a> 를 참조하였고 나름의 이해를 통해 정리한 내용입니다.</strong></p></div></div></div></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/posts/react-hooks-works/";/*]]>*/</script><!-- slice-start id="_gatsby-scripts-1" -->
+<h3 id="4-babel-환경"><a class="anchor" aria-hidden="true" tabindex="-1" href="#4-babel-환경"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>4. Babel 환경</h3>
+<p>React, styled-components를 활용할거라 Babel 환경을 구성한다.</p>
+<p><strong>Babel 플러그인 설치</strong></p>
+<pre><code class="code-highlight"><span class="code-line">yarn add -D babel babel-plugin-styled-components babel-preset-react-app
+</span></code><div class="copied" data-code="yarn add -D babel babel-plugin-styled-components babel-preset-react-app
+"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+<p><strong>babel.config.js, babel.config.json</strong>
+루트 디렉토리에 babel.config.js, babel.config.json 파일을 생성하고 아래 내용을 추가한다.</p>
+<pre><code class="code-highlight"><span class="code-line">// babel.config.js
+</span><span class="code-line">module.exports = {
+</span><span class="code-line">    presets: [
+</span><span class="code-line">        require.resolve(&#x27;@babel/preset-env&#x27;),
+</span><span class="code-line">        require.resolvwe(&#x27;@babel/preset-typescript&#x27;),
+</span><span class="code-line">        [require.resolve(&#x27;@babel/preset-react&#x27;), { runtime: &#x27;automatic&#x27; }],
+</span><span class="code-line">    ],
+</span><span class="code-line">    plugins: [
+</span><span class="code-line">        &#x27;babel-plugin-styled-components&#x27;,
+</span><span class="code-line">    ]
+</span><span class="code-line">}
+</span></code><div class="copied" data-code="// babel.config.js
+module.exports = {
+    presets: [
+        require.resolve(&#x27;@babel/preset-env&#x27;),
+        require.resolvwe(&#x27;@babel/preset-typescript&#x27;),
+        [require.resolve(&#x27;@babel/preset-react&#x27;), { runtime: &#x27;automatic&#x27; }],
+    ],
+    plugins: [
+        &#x27;babel-plugin-styled-components&#x27;,
+    ]
+}
+"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+<pre><code class="code-highlight"><span class="code-line">// babel.config.json
+</span><span class="code-line">{
+</span><span class="code-line">    &quot;testEnvironment&quot;: &quot;jsdom&quot;,
+</span><span class="code-line">    &quot;moduleFileExtensions&quot;: [
+</span><span class="code-line">        &quot;js&quot;,
+</span><span class="code-line">        &quot;jsx&quot;
+</span><span class="code-line">    ],
+</span><span class="code-line">    &quot;roots&quot;: [
+</span><span class="code-line">        &quot;src&quot;
+</span><span class="code-line">    ],
+</span><span class="code-line">    &quot;moduleNameMapper&quot;: {
+</span><span class="code-line">        &quot;src/(.*)&quot;: &quot;&lt;rootDir&gt;/src/$1&quot;,
+</span><span class="code-line">        &quot;\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$&quot;: &quot;&lt;rootDir&gt;/__mocks__/fileMock.js&quot;,
+</span><span class="code-line">        &quot;\\.(css|less)$&quot;: &quot;&lt;rootDir&gt;/__mocks__/styleMock.js&quot;
+</span><span class="code-line">    },
+</span><span class="code-line">    &quot;transform&quot;: {
+</span><span class="code-line">        &quot;\\.js$&quot;: &quot;&lt;rootDir&gt;/node_modules/babel-jest&quot;,
+</span><span class="code-line">        &quot;\\.jsx$&quot;: &quot;&lt;rootDir&gt;/node_modules/babel-jest&quot;
+</span><span class="code-line">    },
+</span><span class="code-line">    &quot;plugins&quot;: [
+</span><span class="code-line">        &quot;babel-plugin-styled-components&quot;
+</span><span class="code-line">    ]
+</span><span class="code-line">}
+</span></code><div class="copied" data-code="// babel.config.json
+{
+    &quot;testEnvironment&quot;: &quot;jsdom&quot;,
+    &quot;moduleFileExtensions&quot;: [
+        &quot;js&quot;,
+        &quot;jsx&quot;
+    ],
+    &quot;roots&quot;: [
+        &quot;src&quot;
+    ],
+    &quot;moduleNameMapper&quot;: {
+        &quot;src/(.*)&quot;: &quot;&lt;rootDir&gt;/src/$1&quot;,
+        &quot;\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$&quot;: &quot;&lt;rootDir&gt;/__mocks__/fileMock.js&quot;,
+        &quot;\\.(css|less)$&quot;: &quot;&lt;rootDir&gt;/__mocks__/styleMock.js&quot;
+    },
+    &quot;transform&quot;: {
+        &quot;\\.js$&quot;: &quot;&lt;rootDir&gt;/node_modules/babel-jest&quot;,
+        &quot;\\.jsx$&quot;: &quot;&lt;rootDir&gt;/node_modules/babel-jest&quot;
+    },
+    &quot;plugins&quot;: [
+        &quot;babel-plugin-styled-components&quot;
+    ]
+}
+"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+<h3 id="적용과정"><a class="anchor" aria-hidden="true" tabindex="-1" href="#적용과정"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>적용과정</h3>
+<p>위 설정을 마쳤으면 packages 디렉토리에서 커스텀 라이브러리 개발을 진행하면 된다.</p>
+<p>디렉토리 구조는 아래와 같다.</p>
+<pre><code class="code-highlight"><span class="code-line">packages/
+</span><span class="code-line">├── src/
+</span><span class="code-line">├──── index.ts
+</span><span class="code-line">...
+</span></code><div class="copied" data-code="packages/
+├── src/
+├──── index.ts
+...
+"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+<p>위 디렉토리 구조에서 개발을 진행완료 했으면 위 설정한 빌드 명령어를 실행한다.</p>
+<pre><code class="code-highlight"><span class="code-line">yarn build
+</span></code><div class="copied" data-code="yarn build
+"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+<p>그러면 dist 디렉토리에 번들링 결과가 생성된다.</p>
+<h3 id="마치면서"><a class="anchor" aria-hidden="true" tabindex="-1" href="#마치면서"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>마치면서</h3>
+<p>실제 위 내용을 직접 적용하면서 &#x27;이렇게 사용해도 되나?&#x27;라고 생각이 들면서 우당탕탕 결과적으로 보일러 플레이트를 만들게 되었다.
+styled-components를 같이 활용하기 위해서 babel 환경을 구성하는데 뭔가 애를 먹었지만 그래도 어렵지 않게 환경구성을 완료했다.</p>
+<p>위 보일러 플레이트를 기반으로 디자인 시스템 라이브러리를 직접 구축해보려고 한다.</p>
+<p>추후 라이브러리를 개발하면서 겪는 다양한 시행착오 역시 기록을 남겨보겠다.</p></div></div></div></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/posts/react-rollup-library/";/*]]>*/</script><!-- slice-start id="_gatsby-scripts-1" -->
           <script
             id="gatsby-chunk-mapping"
           >

@@ -3,7 +3,7 @@ title: "React Hooks 동작 원리"
 date: "2024-01-03"
 category: "React"
 summary: "리액트 훅의 동작 원리"
-thumbnail: './logo.png'
+thumbnail: '../assets/react/logo.png'
 slug: "react-hooks-works"
 ---
 

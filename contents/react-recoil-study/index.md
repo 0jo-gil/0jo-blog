@@ -3,7 +3,7 @@ title: "Recoil 을 사용하면서"
 date: "2023-12-12"
 category: "React"
 summary: "React Recoil을 사용하면서 헷갈렸던 점"
-thumbnail: './logo.png'
+thumbnail: '../assets/react/logo.png'
 slug: "react-recoil-study"
 ---
 

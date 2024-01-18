@@ -3,7 +3,7 @@ title: "유틸리티 타입 (Utility Types)"
 date: "2023-12-27"
 category: "TypeScript"
 summary: "TypeScript 유틸리티 타입에 대한 정리"
-thumbnail: './logo.png'
+thumbnail: '../assets/react/logo.png'
 slug: "typescript-utility-types"
 ---
 ## 유틸리티 타입 (Utility Types)

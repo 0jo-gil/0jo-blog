@@ -3,7 +3,7 @@ title: "Namespace Component"
 date: "2023-12-14"
 category: "React"
 summary: "리액트 Namespace Component에 대해 알아보자."
-thumbnail: './logo.png'
+thumbnail: '../assets/react/logo.png'
 slug: "react-namespace-component"
 ---
 

@@ -3,7 +3,9 @@ title: "React Query 활용 방법"
 date: "2024-01-05"
 category: "React"
 summary: "왜? 나는 React Query의 다양한 기능을 사용하지 않았는가?"
+thumbnail: '../assets/react/logo.png'
 slug: "react-tanstack-react-query"
+
 ---
 
 React Query를 개발에 활용하면서 왜 지금까지 단순히 **useQuery**, **useMutation** 등 단편적인 기능만을 사용했을까.. 이러한 반성을 계기로 Reqct Query를 다양하게 활용할 수 있는 편리한 기능을 사용할 때 마다 추가적으로 기록하려고 한다.

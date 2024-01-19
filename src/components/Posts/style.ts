@@ -17,8 +17,9 @@ export const StPostItemContent = styled.div`
 export const StPostItemHashTag = styled.div`
   font-size: 14px;
   color: rgb(0, 198, 142);
-  font-family: 'BMHANNAPro';
 `;
+ 
+//  font-family: 'BMHANNAPro';
 
 export const StPostItemSummary = styled.p`
   font-size: 16px;
@@ -35,14 +36,15 @@ export const StPostTitleContainer = styled.div`
 export const StPostTemplateTitle = styled.h1`
   font-size: 38px;
   font-weight: bold;
-  font-family: 'BMHANNAPro';
 `;
+  // font-family: 'BMHANNAPro';
 
 export const StPostPreviewContainer = styled.div`
   margin-top: 60px;
 
-  * {
-    font-family: 'BMHANNAAir';
-    font-weight: 700;
-  }
+ 
 `;
+ // * {
+  //   font-family: 'BMHANNAAir';
+  //   font-weight: 700;
+  // }

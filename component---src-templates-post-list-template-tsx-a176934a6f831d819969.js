@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkgatsby_starter_default=self.webpackChunkgatsby_starter_default||[]).push([[703],{2774:function(t,e,a){a.r(e);var s=a(5893);e.default=t=>{let{data:e,pageContext:a}=t;const{category:r}=a;return console.log(e,"!!!"),(0,s.jsxs)("div",{children:[r," 결과"]})}}}]);
-//# sourceMappingURL=component---src-templates-post-list-template-tsx-a176934a6f831d819969.js.map

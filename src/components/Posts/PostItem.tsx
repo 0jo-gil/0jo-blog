@@ -7,7 +7,7 @@ import {
 } from "components/Posts/style";
 import {StContentTitle} from "styles/common";
 import {Link} from "gatsby";
-import { ReactLogoImg, TypeScriptLogoImg } from "../../assets/img";
+import { JavaScriptLogoImg, ReactLogoImg, TypeScriptLogoImg } from "../../assets/img";
 
 const PostItem = ({post}: any) => {
     const url = () => {
@@ -15,7 +15,8 @@ const PostItem = ({post}: any) => {
             return ReactLogoImg;
         } else if(post.node.frontmatter.category === 'TypeScript') {
             return TypeScriptLogoImg;
-
+        } else if (post.node.frontmatter.category === 'JavaScript') {
+            return JavaScriptLogoImg;
         }
 
         return ReactLogoImg;

@@ -11,135 +11,147 @@
 
         gtag('config', 'G-H4CKQGN494', {"send_page_view":false});
       }
-      </script></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div><style data-emotion="css 3gwc8a">.css-3gwc8a{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;height:60px;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}</style><header class="css-3gwc8a e17soa3h0"><style data-emotion="css 1rn2kuj">.css-1rn2kuj{width:1080px;margin:0 auto;}</style><div class="flex flex-row justify-between items-center css-1rn2kuj e1o6ocx12"><a href="/"><style data-emotion="css 9jx4lc">.css-9jx4lc{font-size:28px;font-weight:bold;}</style><h1 class="css-9jx4lc e1j5aiyv0">0jo&#x27;s dev blog</h1></a></div></header><div><style data-emotion="css 1tu5tl0">.css-1tu5tl0{width:1080px;margin:0 auto;padding:80px 0;}</style><div class="css-1tu5tl0 e1o6ocx12"><div class="css-0 ej6cxde2"><style data-emotion="css kk0sol">.css-kk0sol{font-size:14px;color:rgb(0, 198, 142);}</style><div class="css-kk0sol ej6cxde4">React</div><style data-emotion="css 19b77ni">.css-19b77ni{font-size:38px;font-weight:bold;}</style><h1 class="css-19b77ni ej6cxde1">React-Hook-Form 활용 방안</h1></div><style data-emotion="css 1huv1ah">.css-1huv1ah{margin-top:60px;}</style><div class="css-1huv1ah ej6cxde0"><div data-color-mode="light" class="wmde-markdown wmde-markdown-color "><h2 id="react-hook-form을-사용하면서"><a class="anchor" aria-hidden="true" tabindex="-1" href="#react-hook-form을-사용하면서"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>React-Hook-Form을 사용하면서</h2>
-<p>react-native의 프로젝트를 react로 마이그레이션 하면서 프로젝트에서 form이 많이 사용되었다. 이러한 form 의 효율적인 관리를 위하여 react-hook-form을 적극 도입하여 기존에 validation form 상태 관리 등 모든 부분을 일일이 관리하고 있었지만 확장성 있게 관리해보려고 한다.</p>
-<p>항상 라이브러리에 대한 기록은 오롯이 나를 위한 기록이다. 추후에 재사용을 할 때 활용방안에 대한 실수를 줄이고 더 나은 활용 방식에 대한 고안을 위해 기록한다.</p>
-<h3 id="validate의-편리함"><a class="anchor" aria-hidden="true" tabindex="-1" href="#validate의-편리함"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>validate의 편리함</h3>
-<p>기존 프로젝트에서 모든 form의 필수요건, 조건 등에 관리를 validation 메소드를 통해 관리했다. 다양한 폼요소에 대한 관리 포인트가 늘어나면 조건이나 복잡도 역시 늘어나게 되었다. react-hook-form을 사용하면서 조금 더 직관적으로 파악할 수 있는 방식을 채택했다.</p>
-<p>아래 예시는 현재 프로젝트에서 사용한 간단한 예시이다.</p>
-<pre class="language-tsx"><code class="language-tsx code-highlight"><span class="code-line"><span class="token keyword">const</span> <span class="token function-variable function">form</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
-</span><span class="code-line">	<span class="token keyword">const</span> <span class="token punctuation">{</span>
-</span><span class="code-line">		register<span class="token punctuation">,</span>
-</span><span class="code-line">		handleSubmit<span class="token punctuation">,</span>
-</span><span class="code-line">		getValues<span class="token punctuation">,</span>
-</span><span class="code-line">		formState<span class="token operator">:</span> <span class="token punctuation">{</span> errors <span class="token punctuation">}</span>
-</span><span class="code-line">	<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">useForm</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-</span><span class="code-line">		<span class="token comment">// 해당 폼 요소들의 default 값</span>
-</span><span class="code-line">		defaultValues<span class="token operator">:</span> <span class="token punctuation">{</span>
-</span><span class="code-line">			id<span class="token operator">:</span> <span class="token string">&#x27;&#x27;</span><span class="token punctuation">,</span>
-</span><span class="code-line">			password<span class="token operator">:</span> <span class="token string">&#x27;&#x27;</span><span class="token punctuation">,</span>
-</span><span class="code-line">			rePassword<span class="token operator">:</span> <span class="token string">&#x27;&#x27;</span>
-</span><span class="code-line">	<span class="token punctuation">}</span><span class="token punctuation">)</span>
-</span><span class="code-line">	
-</span><span class="code-line">	<span class="token comment">// form onSubmit (data: 객체와 key value로 폼 요소 name이 key로 값이 value로 반환)</span>
-</span><span class="code-line">	<span class="token keyword">const</span> <span class="token function-variable function">onSubmit</span> <span class="token operator">=</span> <span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
-</span><span class="code-line">		<span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
-</span><span class="code-line">	<span class="token punctuation">}</span>
-</span><span class="code-line">	
-</span><span class="code-line">	<span class="token comment">// formState error 객체 반환 (각 폼 요소에 설정한 조건에 대한 상태 반환)</span>
-</span><span class="code-line">	<span class="token keyword">const</span> <span class="token function-variable function">onInvalid</span> <span class="token operator">=</span> <span class="token punctuation">(</span>errors<span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
-</span><span class="code-line">		<span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span>errors<span class="token punctuation">)</span>
-</span><span class="code-line">	<span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line">	<span class="token keyword">return</span> <span class="token punctuation">(</span>
-</span><span class="code-line">		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">onSubmit</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token function">handleSubmit</span><span class="token punctuation">(</span>onSubmit<span class="token punctuation">,</span> onInvalid<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
-</span></span><span class="code-line"><span class="token plain-text">			</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>text<span class="token punctuation">&quot;</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>id<span class="token punctuation">&quot;</span></span> <span class="token spread"><span class="token punctuation">{</span><span class="token spread operator">...</span><span class="token method function property-access">register</span><span class="token punctuation">(</span><span class="token string">&#x27;id&#x27;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
-</span></span></span><span class="code-line"><span class="token tag"><span class="token spread">				required<span class="token operator">:</span> <span class="token string">&quot;아이디를 입력하세요.&quot;</span><span class="token punctuation">,</span>
-</span></span></span><span class="code-line"><span class="token tag"><span class="token spread">				minLength<span class="token operator">:</span> <span class="token punctuation">{</span>
-</span></span></span><span class="code-line"><span class="token tag"><span class="token spread">					value<span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
-</span></span></span><span class="code-line"><span class="token tag"><span class="token spread">					message<span class="token operator">:</span> <span class="token string">&quot;아이디는 최소 5자 이상 입니다.&quot;</span>
-</span></span></span><span class="code-line"><span class="token tag"><span class="token spread">				<span class="token punctuation">}</span>
-</span></span></span><span class="code-line"><span class="token tag"><span class="token spread">			<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span> <span class="token punctuation">/&gt;</span></span><span class="token plain-text">
-</span></span><span class="code-line"><span class="token plain-text">			</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>password<span class="token punctuation">&quot;</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>password<span class="token punctuation">&quot;</span></span> <span class="token spread"><span class="token punctuation">{</span><span class="token spread operator">...</span><span class="token method function property-access">register</span><span class="token punctuation">(</span><span class="token string">&#x27;password&#x27;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
-</span></span></span><span class="code-line"><span class="token tag"><span class="token spread">				required<span class="token operator">:</span> <span class="token string">&quot;비밀번호를 입력해주세요.&quot;</span><span class="token punctuation">,</span>
-</span></span></span><span class="code-line"><span class="token tag"><span class="token spread">				<span class="token spread operator">...</span>
-</span></span></span><span class="code-line"><span class="token tag"><span class="token spread">			<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span> <span class="token punctuation">/&gt;</span></span><span class="token plain-text">
-</span></span><span class="code-line"><span class="token plain-text">			</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>password<span class="token punctuation">&quot;</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>rePassword<span class="token punctuation">&quot;</span></span> <span class="token attr-name">{...register(&#x27;rePassword&#x27;,</span> <span class="token attr-name">{</span>
-</span></span><span class="code-line"><span class="token tag">				<span class="token attr-name"><span class="token namespace">required:</span></span> <span class="token attr-name">&quot;비밀번호를</span> <span class="token attr-name">재입력해주세요.&quot;,</span>
-</span></span><span class="code-line"><span class="token tag">        <span class="token attr-name"><span class="token namespace">minLength:</span></span> <span class="token attr-name">{</span>
-</span></span><span class="code-line"><span class="token tag">            <span class="token attr-name"><span class="token namespace">value:</span></span> <span class="token attr-name">5,</span>
-</span></span><span class="code-line"><span class="token tag">            <span class="token attr-name"><span class="token namespace">message:</span></span> <span class="token attr-name">&#x27;비밀번호는</span> <span class="token attr-name">5자</span> <span class="token attr-name">이상입니다.&#x27;</span>
-</span></span><span class="code-line"><span class="token tag">        <span class="token attr-name">},</span>
-</span></span><span class="code-line"><span class="token tag">        <span class="token attr-name"><span class="token namespace">validate:</span></span> <span class="token attr-name">(value)</span> <span class="token attr-name">=</span><span class="token punctuation">&gt;</span> <span class="token attr-name">value</span> <span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation attr-equals">=</span><span class="token punctuation attr-equals">=</span></span> <span class="token attr-name">getValues(&#x27;password&#x27;)</span> <span class="token attr-name">||</span> <span class="token attr-name">&#x27;비밀번호가</span> <span class="token attr-name">일치하지</span> <span class="token attr-name">않습니다.&#x27;</span>
-</span></span><span class="code-line"><span class="token tag">			<span class="token attr-name">})}</span> <span class="token punctuation">/&gt;</span></span><span class="token plain-text">
-</span></span><span class="code-line"><span class="token plain-text">
-</span></span><span class="code-line"><span class="token plain-text">			</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>submit<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token plain-text">제출</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
-</span></span><span class="code-line"><span class="token plain-text">		</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">&gt;</span></span>
-</span><span class="code-line">	<span class="token punctuation">)</span>
+      </script></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div><style data-emotion="css 3gwc8a">.css-3gwc8a{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;height:60px;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}</style><header class="css-3gwc8a e17soa3h0"><style data-emotion="css 1rn2kuj">.css-1rn2kuj{width:1080px;margin:0 auto;}</style><div class="flex flex-row justify-between items-center css-1rn2kuj e1o6ocx12"><a href="/"><style data-emotion="css 9jx4lc">.css-9jx4lc{font-size:28px;font-weight:bold;}</style><h1 class="css-9jx4lc e1j5aiyv0">0jo&#x27;s dev blog</h1></a></div></header><div><style data-emotion="css 1tu5tl0">.css-1tu5tl0{width:1080px;margin:0 auto;padding:80px 0;}</style><div class="css-1tu5tl0 e1o6ocx12"><div class="css-0 ej6cxde2"><style data-emotion="css kk0sol">.css-kk0sol{font-size:14px;color:rgb(0, 198, 142);}</style><div class="css-kk0sol ej6cxde4">JavaScript</div><style data-emotion="css 19b77ni">.css-19b77ni{font-size:38px;font-weight:bold;}</style><h1 class="css-19b77ni ej6cxde1">커링</h1></div><style data-emotion="css 1huv1ah">.css-1huv1ah{margin-top:60px;}</style><div class="css-1huv1ah ej6cxde0"><div data-color-mode="light" class="wmde-markdown wmde-markdown-color "><h2 id="서론"><a class="anchor" aria-hidden="true" tabindex="-1" href="#서론"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>서론</h2>
+<p>실제로 여러 언어들이 가진 각 언어의 패러다임을 접하면서 JavaScript의 함수형 프로그래밍을 조금 더 깊게 공부해보고 싶었고 이에 대한 실제 활용 방법을 접하는 와중에 *<a href="https://ko.wikipedia.org/wiki/%EC%BB%A4%EB%A7%81">커링</a>*에 대해 접하게 되었고 정리해보려고 한다.</p>
+<h2 id="그래서-커링이란"><a class="anchor" aria-hidden="true" tabindex="-1" href="#그래서-커링이란"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>그래서 커링이란?</h2>
+<blockquote>
+<p>컴퓨터 과학에서 <strong>커링</strong> 이란 다중 인수 (혹은 여러 인수의 튜플)을 갖는 함수를 단일 인수를 갖는 함수들의 함수열로 바꾸는 것을 말한다 - 위키백과</p>
+</blockquote>
+<p>커링은 아래 설명할 자바스크립트 뿐만 아니라 다른 언어에도 존재한다. 복잡한 함수를 간단하고 재사용 가능한 여러 함수로 분해하는 개념이다. 커링을 사용하면 함수의 인자를 하나씩 적용할 수 있으며, 각 단계에서 새로운 함수를 반환한다.</p>
+<p>즉, 일반적으로 한 번에 모든 인자를 가진 함수를 리턴하는 것과 달리 첫 번째 인자를 통해 새로운 함수를 반환하고, 두 번째 인자로 새로운 함수를 반환하고… 이 과정을 반복하고 모든 전달 인자가 완료될때까지 실행된다.</p>
+<h2 id="javascript에서의-커링"><a class="anchor" aria-hidden="true" tabindex="-1" href="#javascript에서의-커링"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>JavaScript에서의 커링</h2>
+<p>가장 일반적인 예시로 각 인자의 더하기를 출력하는 add 함수에 대한 예시를 살펴보자.</p>
+<pre class="language-jsx"><code class="language-jsx code-highlight"><span class="code-line"><span class="token keyword">function</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token parameter">a</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</span><span class="code-line">	<span class="token keyword control-flow">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">b</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</span><span class="code-line">		<span class="token keyword control-flow">return</span> a <span class="token operator">+</span> b<span class="token punctuation">;</span>
+</span><span class="code-line">	<span class="token punctuation">}</span><span class="token punctuation">;</span>
 </span><span class="code-line"><span class="token punctuation">}</span>
-</span></code><div class="copied" data-code="const form = () =&gt; {
-	const {
-		register,
-		handleSubmit,
-		getValues,
-		formState: { errors }
-	} = useForm({
-		// 해당 폼 요소들의 default 값
-		defaultValues: {
-			id: &#x27;&#x27;,
-			password: &#x27;&#x27;,
-			rePassword: &#x27;&#x27;
-	})
-	
-	// form onSubmit (data: 객체와 key value로 폼 요소 name이 key로 값이 value로 반환)
-	const onSubmit = (data) =&gt; {
-		console.log(data);
-	}
-	
-	// formState error 객체 반환 (각 폼 요소에 설정한 조건에 대한 상태 반환)
-	const onInvalid = (errors) =&gt; {
-		console.log(errors)
-	}
-
-	return (
-		&lt;form onSubmit={handleSubmit(onSubmit, onInvalid)}&gt;
-			&lt;input type=&quot;text&quot; name=&quot;id&quot; {...register(&#x27;id&#x27;, {
-				required: &quot;아이디를 입력하세요.&quot;,
-				minLength: {
-					value: 5,
-					message: &quot;아이디는 최소 5자 이상 입니다.&quot;
-				}
-			})} /&gt;
-			&lt;input type=&quot;password&quot; name=&quot;password&quot; {...register(&#x27;password&#x27;, {
-				required: &quot;비밀번호를 입력해주세요.&quot;,
-				...
-			})} /&gt;
-			&lt;input type=&quot;password&quot; name=&quot;rePassword&quot; {...register(&#x27;rePassword&#x27;, {
-				required: &quot;비밀번호를 재입력해주세요.&quot;,
-        minLength: {
-            value: 5,
-            message: &#x27;비밀번호는 5자 이상입니다.&#x27;
-        },
-        validate: (value) =&gt; value === getValues(&#x27;password&#x27;) || &#x27;비밀번호가 일치하지 않습니다.&#x27;
-			})} /&gt;
-
-			&lt;button type=&quot;submit&quot;&gt;제출&lt;/button&gt;
-		&lt;/form&gt;
-	)
+</span><span class="code-line">
+</span><span class="code-line"><span class="token keyword">const</span> addFive <span class="token operator">=</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token function">addFive</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 8</span>
+</span><span class="code-line"><span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token function">addFive</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 15</span>
+</span></code><div class="copied" data-code="function add(a) {
+	return function(b) {
+		return a + b;
+	};
 }
+
+const addFive = add(5);
+
+console.log(addFive(3)); // 8
+console.log(addFive(10)); // 15
 "><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<p>위에서 활용한 <code>useForm</code>의 기능을 간단하게 정리하려고 한다.</p>
+<ul>
+<li><code>add</code> 함수는 하나의 인자 <code>a</code> 를 받고 다른 함수를 반환한다.</li>
+<li>반환된 함수는 또 다른 인자 <code>b</code> 를 받아 <code>a</code> 와 <code>b</code> 를 더한다.</li>
+<li><code>add(5)</code> 는 <code>5</code> 와 더하는 함수를 반환하고 이 함수에 다른 숫자를 넘겨 최종 값을 반환한다.</li>
+</ul>
+<p>위 기본적인 예시를 토대로 실제 개발을 하면서 활용할 수 있는 여러가지 예시에 대해 살펴보자.</p>
 <ol>
-<li><strong>register</strong>: (name: string, options?)</li>
+<li><strong>객체의 특정 키 값을 추출하는 함수</strong></li>
 </ol>
+<pre class="language-jsx"><code class="language-jsx code-highlight"><span class="code-line"><span class="token keyword">const</span> <span class="token function-variable function">getProps</span> <span class="token operator">=</span> <span class="token parameter">key</span> <span class="token arrow operator">=&gt;</span> <span class="token parameter">obj</span> <span class="token arrow operator">=&gt;</span> obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token keyword">const</span> getName <span class="token operator">=</span> <span class="token function">getProps</span><span class="token punctuation">(</span><span class="token string">&#x27;name&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line"><span class="token keyword">const</span> users <span class="token operator">=</span> <span class="token punctuation">[</span>
+</span><span class="code-line">	<span class="token punctuation">{</span><span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">&#x27;Kim&#x27;</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+</span><span class="code-line">	<span class="token punctuation">{</span><span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">&#x27;Lee&#x27;</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+</span><span class="code-line">	<span class="token spread operator">...</span>
+</span><span class="code-line"><span class="token punctuation">]</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token keyword">const</span> names <span class="token operator">=</span> users<span class="token punctuation">.</span><span class="token method function property-access">map</span><span class="token punctuation">(</span>getName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line"><span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span>names<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [&#x27;Kim&#x27;, &#x27;Lee&#x27;, ...]</span>
+</span></code><div class="copied" data-code="const getProps = key =&gt; obj =&gt; obj[key];
+
+const getName = getProps(&#x27;name&#x27;);
+const users = [
+	{name: &#x27;Kim&#x27;},
+	{name: &#x27;Lee&#x27;},
+	...
+]
+
+const names = users.map(getName);
+console.log(names); // [&#x27;Kim&#x27;, &#x27;Lee&#x27;, ...]
+"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
 <ul>
-<li>위 메소드는 해당 폼요소를 등록하고 유효성 검사 규칙을 적용할 수 있다.</li>
-<li>첫번째 인자로 해당 요소 <code>name</code>, 두번째 인자로 <code>검사 옵션</code>전달</li>
+<li><strong><code>getProps</code> 함수는 객체에서 키에 해당하는 값을 추출</strong></li>
+<li><strong><code>getName</code></strong> 함수는 <strong><code>getProps</code></strong> 함수를 &#x27;name&#x27; 키에 대해 커링</li>
+<li>배열의 각 객체에서 &#x27;name&#x27; 값 추출</li>
 </ul>
-<ol start="2">
-<li><strong>handleSubmit</strong>: ((data: Object, e?: Event), (errors: Object, e?: Event))</li>
+<ol>
+<li><strong>조건에 따라 배열 필터링</strong></li>
 </ol>
+<pre class="language-jsx"><code class="language-jsx code-highlight"><span class="code-line"><span class="token keyword">const</span> <span class="token function-variable function">filterBy</span> <span class="token operator">=</span> <span class="token parameter">key</span> <span class="token arrow operator">=&gt;</span> <span class="token parameter">value</span> <span class="token arrow operator">=&gt;</span> <span class="token parameter">array</span> <span class="token arrow operator">=&gt;</span> array<span class="token punctuation">.</span><span class="token method function property-access">filter</span><span class="token punctuation">(</span><span class="token parameter">obj</span> <span class="token arrow operator">=&gt;</span> obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">===</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token keyword">const</span> filterByType <span class="token operator">=</span> <span class="token function">filterBy</span><span class="token punctuation">(</span><span class="token string">&#x27;type&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token keyword">const</span> products <span class="token operator">=</span> <span class="token punctuation">[</span>
+</span><span class="code-line">	<span class="token punctuation">{</span> <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">&#x27;fruit&#x27;</span><span class="token punctuation">,</span> <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">&#x27;apple&#x27;</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</span><span class="code-line">	<span class="token punctuation">{</span> <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">&#x27;vegetable&#x27;</span><span class="token punctuation">,</span> <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">&#x27;carrot&#x27;</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</span><span class="code-line">	<span class="token punctuation">{</span> <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">&#x27;fruit&#x27;</span><span class="token punctuation">,</span> <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">&#x27;banana&#x27;</span> <span class="token punctuation">}</span>
+</span><span class="code-line">	<span class="token spread operator">...</span>
+</span><span class="code-line"><span class="token punctuation">]</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token keyword">const</span> fruits <span class="token operator">=</span> <span class="token function">filterByType</span><span class="token punctuation">(</span><span class="token string">&#x27;fruit&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">(</span>products<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line"><span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span>fruits<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [{ type: &#x27;fruit&#x27;, name: &#x27;apple&#x27; }, { type: &#x27;fruit&#x27;, name: &#x27;banana&#x27; }]</span>
+</span></code><div class="copied" data-code="const filterBy = key =&gt; value =&gt; array =&gt; array.filter(obj =&gt; obj[key] === value);
+
+const filterByType = filterBy(&#x27;type&#x27;);
+
+const products = [
+	{ type: &#x27;fruit&#x27;, name: &#x27;apple&#x27; },
+	{ type: &#x27;vegetable&#x27;, name: &#x27;carrot&#x27; },
+	{ type: &#x27;fruit&#x27;, name: &#x27;banana&#x27; }
+	...
+];
+
+const fruits = filterByType(&#x27;fruit&#x27;)(products);
+console.log(fruits); // [{ type: &#x27;fruit&#x27;, name: &#x27;apple&#x27; }, { type: &#x27;fruit&#x27;, name: &#x27;banana&#x27; }]
+"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
 <ul>
-<li>첫번째 인자는 form submit successful callback 함수 전달</li>
-<li>두번째 인자는 form error callback 함수 전달</li>
+<li><strong><code>filterBy</code></strong> 함수는 특정 키와 값을 기준으로 배열의 요소를 필터링</li>
 </ul>
-<ol start="3">
-<li><strong>getValues</strong>: (payload?: string | string[])</li>
+<ol>
+<li><strong>로그 함수 활용 (<a href="https://ko.javascript.info/currying-partials">ko.javascript.info</a> 인용)</strong></li>
 </ol>
+<p>→ 활용방법에 대한 리서칭 중에 찾은 ko.javascript.info에서 실제 로그 함수를 처리하는 좋은 사례가 있어서 함께 기록해두려고 한다.</p>
+<pre class="language-jsx"><code class="language-jsx code-highlight"><span class="code-line"><span class="token comment">// 커링 적용 전</span>
+</span><span class="code-line"><span class="token comment">// 로그 함수 실행시 전달받은 세개의 인자를 alert창으로 띄운다.</span>
+</span><span class="code-line"><span class="token keyword">function</span> <span class="token function">log</span><span class="token punctuation">(</span><span class="token parameter">date<span class="token punctuation">,</span> importance<span class="token punctuation">,</span> message</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</span><span class="code-line">  <span class="token function">alert</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">[</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>date<span class="token punctuation">.</span><span class="token method function property-access">getHours</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>date<span class="token punctuation">.</span><span class="token method function property-access">getMinutes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">] [</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>importance<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">] </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>message<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line"><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 커링 적용 후</span>
+</span><span class="code-line"><span class="token keyword">const</span> <span class="token function-variable function">log</span> <span class="token operator">=</span> <span class="token parameter">date</span> <span class="token arrow operator">=&gt;</span> <span class="token parameter">importance</span> <span class="token arrow operator">=&gt;</span> <span class="token parameter">message</span> <span class="token arrow operator">=&gt;</span> 
+</span><span class="code-line">	<span class="token function">alert</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">[</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>date<span class="token punctuation">.</span><span class="token method function property-access">getHours</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>date<span class="token punctuation">.</span><span class="token method function property-access">getMinutes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">] [</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>importance<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">] </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>message<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span></code><div class="copied" data-code="// 커링 적용 전
+// 로그 함수 실행시 전달받은 세개의 인자를 alert창으로 띄운다.
+function log(date, importance, message) {
+  alert(`[${date.getHours()}:${date.getMinutes()}] [${importance}] ${message}`);
+}
+
+// 커링 적용 후
+const log = date =&gt; importance =&gt; message =&gt; 
+	alert(`[${date.getHours()}:${date.getMinutes()}] [${importance}] ${message}`);
+"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
 <ul>
-<li>메소드명에서 추측할 수 있듯이 해당 폼 name을 가진 values를 반환한다.</li>
-<li>위에서 활용한 방안은 폼 요소에 validate에서 각 값을 비교하여 검증하는 방식으로 활용</li>
-</ul></div></div></div></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/posts/react-hook-form/";/*]]>*/</script><!-- slice-start id="_gatsby-scripts-1" -->
+<li>첫 번째 호출에서 날짜를 전달받고 <code>importance</code> 를 인자로 받는 함수 반환, 현재 단계에서 <code>date</code> 객체 저장</li>
+<li>두 번째 호출에서 로그의 중요도 전달받고 <code>message</code> 를 인자로 받는 또 다른 함수 반환, 현재 단계에서 <code>date</code> 와 <code>importance</code> 가 저장</li>
+<li>세 번째 호출에서 메시지를 받는다. 최종 로그 문자열을 alert으로 출력</li>
+</ul>
+<p>위 로그 함수를 실제 활용 예시</p>
+<pre class="language-jsx"><code class="language-jsx code-highlight"><span class="code-line"><span class="token keyword">const</span> todayLog <span class="token operator">=</span> <span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line"><span class="token keyword">const</span> todayErrorLog <span class="token operator">=</span> <span class="token function">todayLog</span><span class="token punctuation">(</span><span class="token string">&#x27;ERROR&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token function">todayErrorLog</span><span class="token punctuation">(</span>&#x27;<span class="token maybe-class-name">This</span> is an error message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span></code><div class="copied" data-code="const todayLog = log(new Date());
+const todayErrorLog = todayLog(&#x27;ERROR&#x27;);
+
+todayErrorLog(&#x27;This is an error message);
+"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+<h2 id="마치면서"><a class="anchor" aria-hidden="true" tabindex="-1" href="#마치면서"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>마치면서</h2>
+<p>실제 프로젝트의 규모가 커지면서 하나의 함수가 여러 사람의 손을 거치면서 말도 안되는 여러개의 인자를 전달받는 함수로 나도 모르는새에 변경되어 있는 사례를 경험하곤한다. 실제 위와 같은 커링을 사용하면 각 인자에 대한 실제 책임의 경우를 가독성있게 판별할 수 있고 재사용 설계에 대한 활용을 통해 코드를 효율적으로 관리할 수 있을 것이라고  생각한다.</p></div></div></div></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/posts/currying-patterns/";/*]]>*/</script><!-- slice-start id="_gatsby-scripts-1" -->
           <script
             id="gatsby-chunk-mapping"
           >

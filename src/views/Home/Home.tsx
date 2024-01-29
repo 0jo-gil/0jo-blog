@@ -1,9 +1,27 @@
-import {PageProps} from "gatsby";
+import CategoriesUsage from "components/Categories/CategoriesUsage";
+import Profile from "components/Profile/Profile";
+import Section from "components/Section/Section";
+import useCategory from "hooks/useCategory";
 
-const Home = ({ data, location: {pathname}}): PageProps => {
+const Home = ({ data, location: {pathname}}: any) => {
+    const { allMarkdownRemark: {
+        edges,
+        group
+    } } = data;
+
+
+    const {categoryList} = useCategory(group);
 
     return (
-        <div></div>
+        <div>
+            <Section>
+                <Profile />
+
+                <CategoriesUsage categoryList={categoryList} />
+
+            </Section>
+
+        </div>
     )
 }
 

@@ -1,15 +1,15 @@
 import React from "react";
 import Categories from "./Categories"
 
-const CategoriesUsage = ({nodes}: any) => {
+const CategoriesUsage = ({categoryList}: any) => {
     return (
         <Categories>
             {
-                nodes?.map((node: any) => {
+                categoryList?.map((list: any, index: number) => {
                     return (
                         <Categories.Item
-                            key={node.node.frontmatter.title}
-                            category={node.node.frontmatter.category}
+                            key={index}
+                            category={list}
                         />
                     )
                 })

@@ -64,9 +64,10 @@ declare module "react" {
 
 // export default Home;
 
+// , limit: 5
 export const query = graphql`
-  query HomeQuery {
-    allMarkdownRemark(sort: {frontmatter: {date: DESC}}, limit: 5) {
+  query Home {
+    allMarkdownRemark(sort: {frontmatter: {date: DESC}}) {
       edges {
         node {
           frontmatter {
@@ -84,6 +85,12 @@ export const query = graphql`
           }
         }
       }
+      group(field: {frontmatter: {category: SELECT}}) {
+        fieldValue
+        totalCount
+      }
     }
   }
 `;
+
+export {default} from '../views/Home/Home';

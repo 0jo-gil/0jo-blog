@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "0jo-blog",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
-  "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "description": "Gatsby + Graphql을 활용한 개인 블로그",
+  "version": "0.8.0",
+  "author": "0jo <0joofficial@gmail.com>",
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
@@ -57,9 +57,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "https://github.com/0jo-gil/0jo-blog.git"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/0jo-gil/0jo-blog/issues"
   }
 }

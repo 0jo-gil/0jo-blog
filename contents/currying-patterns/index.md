@@ -1,7 +1,7 @@
 ---
 title: "커링"
 date: "2024-01-29"
-category: "JavaScript"
+category: ["JavaScript"]
 summary: "함수형 프로그래밍에서 활용가능한 커링에 대해 알아보자"
 slug: "currying-patterns"
 ---

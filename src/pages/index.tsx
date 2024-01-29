@@ -36,36 +36,36 @@ declare module "react" {
     }
 }
 
-const Home = ({
-                  // location: {search, href},
-                  data: {
-                      allMarkdownRemark: {
-                          edges,
-                      }
-                  },
-              }: Props) => {
+// const Home = ({
+//                   // location: {search, href},
+//                   data: {
+//                       allMarkdownRemark: {
+//                           edges,
+//                       }
+//                   },
+//               }: Props) => {
+//
+//     return (
+//         <Layout
+//             title='Home'
+//         >
+//             <Section>
+//                 <Profile/>
+//             </Section>
+//
+//             <Section>
+//                 <Section.Title title={'Recent Posts'} link={{to: 'posts/list/1', text: 'more'}}/>
+//
+//                 <PostsList posts={edges}/>
+//             </Section>
+//         </Layout>
+//     )
+// }
 
-    return (
-        <Layout
-            title='Home'
-        >
-            <Section>
-                <Profile/>
-            </Section>
-            
-            <Section>
-                <Section.Title title={'Recent Posts'} link={{to: 'posts/list/1', text: 'more'}}/>
-
-                <PostsList posts={edges}/>
-            </Section>
-        </Layout>
-    )
-}
-
-export default Home;
+// export default Home;
 
 export const query = graphql`
-  query getPosts {
+  query HomeQuery {
     allMarkdownRemark(sort: {frontmatter: {date: DESC}}, limit: 5) {
       edges {
         node {

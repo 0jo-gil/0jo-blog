@@ -1,7 +1,7 @@
 ---
 title: "CSR, SSR, SSG에 대하여"
 date: "2023-12-28"
-category: "Web"
+category: ["Web"]
 summary: "CSR, SSR, SSG에 대한 개념을 자세하게 알아보자."
 thumbnail: '../assets/react/logo.png'
 slug: "web-csr-ssr-ssg"

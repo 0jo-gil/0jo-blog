@@ -1,7 +1,7 @@
 ---
 title: "useEffect vs useLayoutEffect"
 date: "2024-01-07"
-category: "React"
+category: ["React"]
 summary: "useEffect와 useLayoutEffect의 차이에 대해 아는가?"
 slug: "react-use-effect-use-layout-effect"
 ---

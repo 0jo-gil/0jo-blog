@@ -1,7 +1,7 @@
 ---
 title: 'React Rollup 라이브러리'
 date: '2024-01-18'
-category: 'React'
+category: ["React"]
 summary: 'React + TypeScript + Rollup을 활용한 라이브러리 개발을 위한 환경셋팅'
 slug: 'react-rollup-library'
 ---

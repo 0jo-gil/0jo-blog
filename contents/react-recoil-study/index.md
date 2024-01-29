@@ -1,7 +1,7 @@
 ---
 title: "Recoil 을 사용하면서"
 date: "2023-12-12"
-category: "React"
+category: ["React"]
 summary: "React Recoil을 사용하면서 헷갈렸던 점"
 thumbnail: '../assets/react/logo.png'
 slug: "react-recoil-study"

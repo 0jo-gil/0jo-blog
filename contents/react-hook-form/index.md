@@ -1,7 +1,7 @@
 ---
 title: "React-Hook-Form 활용 방안"
 date: "2024-01-14"
-category: "React"
+category: ["React"]
 summary: "React-Hook-Form을 내 프로젝트에서 활용할 수 있는 방식에 대해 정리하자."
 slug: "react-hook-form"
 ---

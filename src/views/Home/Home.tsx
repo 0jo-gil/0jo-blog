@@ -1,27 +1,29 @@
 import CategoriesUsage from "components/Categories/CategoriesUsage";
 import Profile from "components/Profile/Profile";
+import RecentPosts from "components/RecentPosts/RecentPosts";
 import Section from "components/Section/Section";
 import useCategory from "hooks/useCategory";
+import { getRecentPosts } from "utils/index";
 
 const Home = ({ data, location: {pathname}}: any) => {
     const { allMarkdownRemark: {
-        edges,
+        totalCount,
+        nodes,
         group
     } } = data;
 
-
+    const getRecent= getRecentPosts(nodes, 5);
     const {categoryList} = useCategory(group);
 
     return (
-        <div>
-            <Section>
-                <Profile />
+        <Section>
+            <Profile />
 
-                <CategoriesUsage categoryList={categoryList} />
+            <RecentPosts posts={getRecent} />
 
-            </Section>
+            <CategoriesUsage categoryList={categoryList} />
 
-        </div>
+        </Section>
     )
 }
 

@@ -67,27 +67,28 @@ declare module "react" {
 // , limit: 5
 export const query = graphql`
   query Home {
-    allMarkdownRemark(sort: {frontmatter: {date: DESC}}) {
-      edges {
-        node {
-          frontmatter {
-            summary
-            title
-            date
-            category
-            slug
-            thumbnail {
-              childImageSharp {
-                gatsbyImageData
-              }
-              publicURL
-            }
-          }
+     allMarkdownRemark(sort: {frontmatter: {date: DESC}}) {
+      totalCount
+      nodes {
+        frontmatter {
+          title
+          summary
+          date(formatString: "YYYY.MM.DD")
+          slug
         }
+        id
       }
       group(field: {frontmatter: {category: SELECT}}) {
         fieldValue
         totalCount
+      }
+    }
+    site {
+      siteMetadata {
+        title
+        siteUrl
+        description
+        author
       }
     }
   }

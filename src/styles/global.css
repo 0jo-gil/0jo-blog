@@ -23,6 +23,14 @@
 }
 
 ol,ul,li {
-    list-style: none;
+    /* list-style: none; */
+}
+
+ol {
+    list-style-type: decimal;
+}
+
+ul {
+    list-style-type: disc;
 }
 

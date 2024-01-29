@@ -14,6 +14,7 @@ export const StInnerContainer = styled.div<StyleProps>`
 export const StFlexRow = styled.div<StyleProps>`
   display: flex;
   flex-direction: row;
+  list-style: none;
   ${({$style}) => $style}
 `;
 

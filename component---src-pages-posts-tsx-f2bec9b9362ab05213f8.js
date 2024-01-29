@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunk_0jo_blog=self.webpackChunk_0jo_blog||[]).push([[754],{234:function(e,t,s){s.r(t);var l=s(2226),u=s(5893);t.default=e=>{let{}=e;return(0,u.jsx)(l.Z,{title:"Posts"})}}}]);
+//# sourceMappingURL=component---src-pages-posts-tsx-f2bec9b9362ab05213f8.js.map

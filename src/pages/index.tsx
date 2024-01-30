@@ -75,6 +75,7 @@ export const query = graphql`
           summary
           date(formatString: "YYYY.MM.DD")
           slug
+          category
         }
         id
       }
@@ -94,4 +95,5 @@ export const query = graphql`
   }
 `;
 
-export {default} from '../views/Home/Home';
+export {default} from '../views/Home';
+export {Head} from '../views/Home'; 

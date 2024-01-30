@@ -15,10 +15,14 @@ const useCategory = (group: any) => {
         setSelectedCategory(category);
     }, [selectedCategory])
 
+    const resultCategory = getCategoryList('fieldValue')(sortedGroupByCount)
+
+    resultCategory.unshift('ALL');
+
 
     return {
         selectedCategory, 
-        categoryList: getCategoryList('fieldValue')(sortedGroupByCount),
+        categoryList: resultCategory,
         onChangeCategory
     }
 }

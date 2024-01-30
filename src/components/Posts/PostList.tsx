@@ -7,7 +7,6 @@ type Props = {
     // posts: any;
 }
 
-// , posts
 const PostList = ({ variant = 'horizon', children }: PropsWithChildren<Props>) => {
     return (
         <StPostListContainer variant={variant}>
@@ -22,5 +21,10 @@ export default PostList;
 const StPostListContainer = styled.div<Pick<Props, 'variant'>>`
     width: 100%;
     display: flex;
+    gap: 2rem;
     flex-direction: ${({variant}) => variant === 'vertical' ? 'column' : 'row'};
+
+    > * {
+        flex: 1;
+    }
 `

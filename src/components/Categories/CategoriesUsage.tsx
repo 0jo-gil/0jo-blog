@@ -1,7 +1,8 @@
 import React from "react";
 import Categories from "./Categories"
 
-const CategoriesUsage = ({categoryList, onChange}: any) => {
+const CategoriesUsage = ({categoryList, selectedCategory, onChange}: any) => {
+    
     return (
         <Categories>
             {
@@ -9,6 +10,7 @@ const CategoriesUsage = ({categoryList, onChange}: any) => {
                     return (
                         <Categories.Item
                             key={index}
+                            active={selectedCategory === list}
                             onClick={() => onChange(list)}
                             category={list}
                         />

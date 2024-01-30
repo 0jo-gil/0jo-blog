@@ -18,14 +18,6 @@ type Props = {
 
 const PostItem = ({post, variant = 'list'}: Props) => {
     const url = () => {
-        // if(post.node.frontmatter.category === 'React') {
-        //     return ReactLogoImg;
-        // } else if(post.node.frontmatter.category === 'TypeScript') {
-        //     return TypeScriptLogoImg;
-        // } else if (post.node.frontmatter.category === 'JavaScript') {
-        //     return JavaScriptLogoImg;
-        // }
-
         return ReactLogoImg;
     }
 
@@ -39,6 +31,7 @@ const PostItem = ({post, variant = 'list'}: Props) => {
         },
         id
     } = post
+
     return (
         <Link to={`/posts/${slug}`}>
             <StPostItemContainer variant={variant} $style={STYLE_TYPE[variant]}>
@@ -47,9 +40,11 @@ const PostItem = ({post, variant = 'list'}: Props) => {
                     </StPostItemThumbnail>
 
                     <StPostItemContent>
-                        <StPostItemHashTag># {category[0]}</StPostItemHashTag>
                         <StContentTitle>{title}</StContentTitle>
                         <StPostItemSummary>{summary}</StPostItemSummary>
+                        <StPostItemHashTag>
+                            {category.map((category: string, index: number) => <div key={index}># {category}</div>)}
+                        </StPostItemHashTag>
                         <div>{date}</div>
                     </StPostItemContent>
 
@@ -58,4 +53,16 @@ const PostItem = ({post, variant = 'list'}: Props) => {
     )
 }
 
+const PostItemCard = ({post}: Props) => {
+    
+
+}
+
+const PostItemList = ({post}: Props) => {
+    
+}
+
 export default PostItem;
+
+PostItem.Card = PostItemCard;
+PostItem.List = PostItemList;

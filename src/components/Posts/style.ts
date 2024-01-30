@@ -2,9 +2,7 @@ import styled from '@emotion/styled';
 import { CSSProp, css } from 'styled-components';
 
 export const StPostItemContainer = styled.div<{variant?: 'list' | 'card', $style: CSSProp}>`
-  display: flex;
-  gap: 5%;
-  margin: 40px 0;
+  ${({$style}) => $style};
 `;
 
 export const StPostItemThumbnail = styled.div`
@@ -22,7 +20,8 @@ export const StPostItemHashTag = styled.div`
  
 
 export const StPostItemSummary = styled.p`
-  font-size: 16px;
+  font-size: 18px;
+  margin-bottom: 3%;
   color: rgb(41, 41, 41);
 `;
 
@@ -48,6 +47,9 @@ export const STYLE_TYPE = {
   'list': css`
       width: 100%;
       display: flex;
+      gap: 5%;
+      margin: 40px 0;
+
 
       div:first-child {
           flex: 0.2;
@@ -58,7 +60,6 @@ export const STYLE_TYPE = {
       }
   `,
   'card': css`
-
       div:first-child {
           width: 100%;
           height: 200px;
@@ -68,7 +69,7 @@ export const STYLE_TYPE = {
           img {
               width: 100%;
               height: 100%;
-              object-fit: cover;
+              object-fit: contain;
           }
       }
 
@@ -76,4 +77,8 @@ export const STYLE_TYPE = {
           width: 100%;
       }
   `
+}
+
+
+export const ITEM_STYLE_TYPE = {
 }

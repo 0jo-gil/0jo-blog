@@ -23,5 +23,6 @@ export const StContentTitle = styled.h2`
   font-size: 22px;
   color: #000;
   font-weight: bold;
+  margin-bottom: 2%;
 `;
 

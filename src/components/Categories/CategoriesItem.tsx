@@ -10,11 +10,6 @@ type Props = {
   onClick?: () => void;
 } & React.HTMLAttributes<HTMLButtonElement>;
 
-type GatsbyLinkProps = {
-  to: string;
-  active: boolean;
-  children: ReactNode;
-};
 
 const CategoriesItem = ({  active = false, category, ...props }: Props) => {
 
@@ -28,17 +23,15 @@ const CategoriesItem = ({  active = false, category, ...props }: Props) => {
         //     {category}
         // </StyledLink>
 
-        <button {...props}>
+        <StCategoryButton {...props} active={active}>
           {category}
-        </button>
+        </StCategoryButton>
     )
 };
 
 export default CategoriesItem;
 
-const StyledLink = styled(({ active, ...props }: GatsbyLinkProps) => (
-  <Link {...props} />
-))<{ active: boolean }>`
+const StCategoryButton = styled.button<{active: boolean}>`
   z-index: 9;
   display: inline-block;
   padding: 0.25rem 0.75rem;
@@ -54,4 +47,5 @@ const StyledLink = styled(({ active, ...props }: GatsbyLinkProps) => (
     margin-left: 1rem;
   }
 `;
+
 

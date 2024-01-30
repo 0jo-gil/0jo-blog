@@ -15,8 +15,10 @@ const Home = ({ data, location: {pathname}}: any) => {
     } } = data;
 
     const {selectedCategory, categoryList, onChangeCategory} = useCategory(group);
-
     const {postList, recentPostList} = usePost(selectedCategory, nodes);
+
+    console.log(categoryList);
+
 
     return (
         <Section>
@@ -29,7 +31,7 @@ const Home = ({ data, location: {pathname}}: any) => {
                 }
             </PostList>
             
-            <CategoriesUsage categoryList={categoryList} onChange={onChangeCategory} />
+            <CategoriesUsage categoryList={categoryList} selectedCategory={selectedCategory} onChange={onChangeCategory} />
 
             {/* 카테고리 별 포스트 */}
             <PostList variant="vertical">

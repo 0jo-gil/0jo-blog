@@ -1,4 +1,5 @@
 import {
+    STYLE_TYPE,
     StPostItemContainer,
     StPostItemContent,
     StPostItemHashTag,
@@ -9,32 +10,47 @@ import {StContentTitle} from "styles/common";
 import {Link} from "gatsby";
 import { JavaScriptLogoImg, ReactLogoImg, TypeScriptLogoImg } from "../../assets/img";
 
-const PostItem = ({post}: any) => {
+
+type Props = {
+    post: any;
+    variant?: 'list' | 'card';
+}
+
+const PostItem = ({post, variant = 'list'}: Props) => {
     const url = () => {
-        if(post.node.frontmatter.category === 'React') {
-            return ReactLogoImg;
-        } else if(post.node.frontmatter.category === 'TypeScript') {
-            return TypeScriptLogoImg;
-        } else if (post.node.frontmatter.category === 'JavaScript') {
-            return JavaScriptLogoImg;
-        }
+        // if(post.node.frontmatter.category === 'React') {
+        //     return ReactLogoImg;
+        // } else if(post.node.frontmatter.category === 'TypeScript') {
+        //     return TypeScriptLogoImg;
+        // } else if (post.node.frontmatter.category === 'JavaScript') {
+        //     return JavaScriptLogoImg;
+        // }
 
         return ReactLogoImg;
     }
 
+    const {
+        frontmatter: {
+            category,
+            date,
+            slug,
+            summary,
+            title
+        },
+        id
+    } = post
     return (
-        <Link to={`/posts/${post.node.frontmatter.slug}`}>
-            <StPostItemContainer >
-
+        <Link to={`/posts/${slug}`}>
+            <StPostItemContainer variant={variant} $style={STYLE_TYPE[variant]}>
                     <StPostItemThumbnail>
-                        <img srcSet={url()} alt={post.node.frontmatter.title} />
+                        <img srcSet={url()} alt={`${title} 이미지`} />
                     </StPostItemThumbnail>
 
                     <StPostItemContent>
-                        <StPostItemHashTag># {post.node.frontmatter.category}</StPostItemHashTag>
-                        <StContentTitle>{post.node.frontmatter.title}</StContentTitle>
-                        <StPostItemSummary>{post.node.frontmatter.summary}</StPostItemSummary>
-                        <div>{post.node.frontmatter.date}</div>
+                        <StPostItemHashTag># {category[0]}</StPostItemHashTag>
+                        <StContentTitle>{title}</StContentTitle>
+                        <StPostItemSummary>{summary}</StPostItemSummary>
+                        <div>{date}</div>
                     </StPostItemContent>
 
             </StPostItemContainer>

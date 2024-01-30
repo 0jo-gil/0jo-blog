@@ -1,19 +1,26 @@
-import PostItem from "./PostItem";
+import styled from "styled-components";
+import { PropsWithChildren } from "react";
 
-const PostList = ({ posts }: any) => {
 
+type Props = {
+    variant?: 'vertical' | 'horizon';
+    // posts: any;
+}
+
+// , posts
+const PostList = ({ variant = 'horizon', children }: PropsWithChildren<Props>) => {
     return (
-        <div>
-            {
-                posts &&
-                posts?.map((post: any) => {
-                    return (
-                        <PostItem post={post} />
-                    )
-                })
-            }
-        </div>
+        <StPostListContainer variant={variant}>
+            {children}
+        </StPostListContainer>
     )
 }
 
 export default PostList;
+
+
+const StPostListContainer = styled.div<Pick<Props, 'variant'>>`
+    width: 100%;
+    display: flex;
+    flex-direction: ${({variant}) => variant === 'vertical' ? 'column' : 'row'};
+`

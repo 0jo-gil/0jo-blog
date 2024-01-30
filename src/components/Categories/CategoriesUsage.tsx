@@ -1,7 +1,7 @@
 import React from "react";
 import Categories from "./Categories"
 
-const CategoriesUsage = ({categoryList}: any) => {
+const CategoriesUsage = ({categoryList, onChange}: any) => {
     return (
         <Categories>
             {
@@ -9,6 +9,7 @@ const CategoriesUsage = ({categoryList}: any) => {
                     return (
                         <Categories.Item
                             key={index}
+                            onClick={() => onChange(list)}
                             category={list}
                         />
                     )

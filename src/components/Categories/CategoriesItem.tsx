@@ -7,7 +7,8 @@ type Props = {
   active?: boolean;
   innerText?: string;
   category: string;
-};
+  onClick?: () => void;
+} & React.HTMLAttributes<HTMLButtonElement>;
 
 type GatsbyLinkProps = {
   to: string;
@@ -15,16 +16,21 @@ type GatsbyLinkProps = {
   children: ReactNode;
 };
 
-const CategoriesItem = ({  active = false, category }: Props) => {
+const CategoriesItem = ({  active = false, category, ...props }: Props) => {
 
     return (
-        <StyledLink
-            active={active}
-            aria-label={`${category} 카테고리`}
-            to={`/posts/${encodeURI(category)}`}
-        >
-            {category}
-        </StyledLink>
+        // <StyledLink
+        //   active={active}
+        //   onClick={() => onClick(category)}
+        //   aria-label={`${category} 카테고리`}
+        //   to={`/${encodeURI(category)}`}
+        // >
+        //     {category}
+        // </StyledLink>
+
+        <button {...props}>
+          {category}
+        </button>
     )
 };
 

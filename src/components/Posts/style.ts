@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
+import { CSSProp, css } from 'styled-components';
 
-export const StPostItemContainer = styled.div`
+export const StPostItemContainer = styled.div<{variant?: 'list' | 'card', $style: CSSProp}>`
   display: flex;
   gap: 5%;
   margin: 40px 0;
@@ -19,7 +20,6 @@ export const StPostItemHashTag = styled.div`
   color: rgb(0, 198, 142);
 `;
  
-//  font-family: 'BMHANNAPro';
 
 export const StPostItemSummary = styled.p`
   font-size: 16px;
@@ -27,7 +27,6 @@ export const StPostItemSummary = styled.p`
 `;
 
 
-// PostTemplate.tsx
 
 export const StPostTitleContainer = styled.div`
 
@@ -37,14 +36,44 @@ export const StPostTemplateTitle = styled.h1`
   font-size: 38px;
   font-weight: bold;
 `;
-  // font-family: 'BMHANNAPro';
 
 export const StPostPreviewContainer = styled.div`
   margin-top: 60px;
 
  
 `;
- // * {
-  //   font-family: 'BMHANNAAir';
-  //   font-weight: 700;
-  // }
+
+
+export const STYLE_TYPE = {
+  'list': css`
+      width: 100%;
+      display: flex;
+
+      div:first-child {
+          flex: 0.2;
+      }
+
+      div:nth-child(2) {
+          flex: 0.8;
+      }
+  `,
+  'card': css`
+
+      div:first-child {
+          width: 100%;
+          height: 200px;
+          overflow: hidden;
+          margin-bottom: 2rem;
+
+          img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+          }
+      }
+
+      div:nth-child(2) {
+          width: 100%;
+      }
+  `
+}

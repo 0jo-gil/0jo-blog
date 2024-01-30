@@ -17,4 +17,7 @@ Categories.Item = CategoriesItem;
 const StCategoriesContainer = styled.div`
     display: flex;
     gap: 1rem;
+    margin-top: 60px;
+    padding: 20px 0;
+    border-bottom: 1px solid #aaa;
 `;

@@ -3,6 +3,7 @@ import { getRecentPosts } from "utils/index"
 
 const usePost = (selectedCategory: string, nodes: any) => {
     const getPostByCategory = useMemo(() => {
+        if(selectedCategory === 'ALL') return nodes;
         return nodes.filter(({frontmatter: {category}}: any) => {
             return category.includes(selectedCategory)
         })

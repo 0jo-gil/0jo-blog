@@ -14,8 +14,13 @@ export const StPostItemContent = styled.div`
 `;
 
 export const StPostItemHashTag = styled.div`
-  font-size: 14px;
+  font-size: 12px;
   color: rgb(0, 198, 142);
+
+  span {
+    border: 1px solid rgb(0, 198, 142);
+    padding: 3px 5px;
+  }
 `;
  
 
@@ -52,17 +57,21 @@ export const STYLE_TYPE = {
 
 
       div:first-child {
-          flex: 0.2;
+        flex: 0.2;
       }
 
       div:nth-child(2) {
-          flex: 0.8;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 170px;
+        flex: 0.8;
       }
   `,
   'card': css`
       div:first-child {
           width: 100%;
-          height: 200px;
+          height: 180px;
           overflow: hidden;
           margin-bottom: 2rem;
 
@@ -75,6 +84,10 @@ export const STYLE_TYPE = {
 
       div:nth-child(2) {
           width: 100%;
+          height: 200px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
       }
   `
 }

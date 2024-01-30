@@ -8,7 +8,7 @@ import {
 } from "components/Posts/style";
 import {StContentTitle} from "styles/common";
 import {Link} from "gatsby";
-import { JavaScriptLogoImg, ReactLogoImg, TypeScriptLogoImg } from "../../assets/img";
+import { ReactLogoImg } from "../../assets/img";
 
 
 type Props = {
@@ -43,7 +43,7 @@ const PostItem = ({post, variant = 'list'}: Props) => {
                         <StContentTitle>{title}</StContentTitle>
                         <StPostItemSummary>{summary}</StPostItemSummary>
                         <StPostItemHashTag>
-                            {category.map((category: string, index: number) => <div key={index}># {category}</div>)}
+                            {category.map((category: string, index: number) => <span key={index}>{category}</span>)}
                         </StPostItemHashTag>
                         <div>{date}</div>
                     </StPostItemContent>

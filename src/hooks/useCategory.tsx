@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 
 const useCategory = (group: any) => {
-    const [selectedCategory, setSelectedCategory] = useState<string>('');
+    const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
 
     const sortedGroupByCount = useMemo(() => {
         return group.sort((a: any, b: any) => {
@@ -16,7 +16,6 @@ const useCategory = (group: any) => {
     }, [selectedCategory])
 
     const resultCategory = getCategoryList('fieldValue')(sortedGroupByCount)
-
     resultCategory.unshift('ALL');
 
 

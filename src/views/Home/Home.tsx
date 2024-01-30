@@ -25,20 +25,26 @@ const Home = ({ data, location: {pathname}}: any) => {
             <Profile />
 
             {/* 최근 등록 포스트 */}
-            <PostList variant={'horizon'}>
-                {
-                    recentPostList.map((post: any, index: number) => <PostItem key={index} variant="card" post={post} />)
-                }
-            </PostList>
+            <div>
+                <Section.Title title="최근 게시물" />
+                <PostList variant={'horizon'}>
+                    {
+                        recentPostList.map((post: any, index: number) => <PostItem key={index} variant="card" post={post} />)
+                    }
+                </PostList>
+            </div>
             
             <CategoriesUsage categoryList={categoryList} selectedCategory={selectedCategory} onChange={onChangeCategory} />
 
             {/* 카테고리 별 포스트 */}
-            <PostList variant="vertical">
-                {
-                    postList.map((post: any, index: number) => <PostItem key={index} variant="list" post={post} />)
-                }
-            </PostList>
+            <div>
+
+                <PostList variant="vertical">
+                    {
+                        postList.map((post: any, index: number) => <PostItem key={index} variant="list" post={post} />)
+                    }
+                </PostList>
+            </div>
 
 
 

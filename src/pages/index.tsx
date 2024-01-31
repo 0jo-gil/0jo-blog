@@ -1,5 +1,5 @@
 import * as React from "react"
-import {graphql} from "gatsby"
+import { graphql } from "gatsby"
 
 import Layout from "components/Layout/Layout"
 
@@ -8,32 +8,32 @@ import Section from "components/Section/Section";
 import Profile from "components/Profile/Profile";
 
 type Props = {
-    location: {
-        search: string;
-        href: string;
+  location: {
+    search: string;
+    href: string;
+  };
+  data: {
+    allMarkdownRemark: {
+      edges: SummaryProps[];
     };
-    data: {
-        allMarkdownRemark: {
-            edges: SummaryProps[];
-        };
-    };
+  };
 };
 
 export type SummaryProps = {
 
-    nodes: {
-        categories: string[];
-        title: string;
-        date: string;
-        summary: string;
-    }
+  nodes: {
+    categories: string[];
+    title: string;
+    date: string;
+    summary: string;
+  }
 }
 
 declare module "react" {
-    interface IntrinsicAttributes {
+  interface IntrinsicAttributes {
 
-        nodes?: SummaryProps[];
-    }
+    nodes?: SummaryProps[];
+  }
 }
 
 // const Home = ({
@@ -67,7 +67,9 @@ declare module "react" {
 // , limit: 5
 export const query = graphql`
   query Home {
-     allMarkdownRemark(sort: {frontmatter: {date: DESC}}) {
+     allMarkdownRemark(
+      sort: {frontmatter: {date: DESC}}
+    ) {
       totalCount
       nodes {
         frontmatter {
@@ -95,5 +97,5 @@ export const query = graphql`
   }
 `;
 
-export {default} from '../views/Home';
-export {Head} from '../views/Home'; 
+export { default } from '../views/Home';
+export { Head } from '../views/Home'; 

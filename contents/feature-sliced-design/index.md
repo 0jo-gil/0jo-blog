@@ -3,7 +3,7 @@ title: "FSD 아키텍쳐"
 date: "2024-02-04"
 category: ["React", "개발"]
 summary: "리액트 다양한 디자인 패턴에 대해 알아보자"
-slug: "react-design-patterns"
+slug: "feature-sliced-design"
 ---
 
 ## 아키텍쳐에 대한 고민

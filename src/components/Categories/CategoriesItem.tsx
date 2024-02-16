@@ -1,6 +1,4 @@
 import styled from "@emotion/styled";
-import { Link } from "gatsby";
-import { ReactNode } from "react";
 
 
 type Props = {
@@ -38,10 +36,9 @@ const StCategoryButton = styled.button<{active: boolean}>`
   font-size: 0.9rem;
   white-space: nowrap;
 
-  border-radius: 1rem;
-  transform: scale(${({ active }) => (active ? 1.15 : 1)});
+  color: ${({ active }) => (active ? 'rgb(0, 198, 142);' : "#eaeaea")};
+  border: 1px solid ${({ active }) => (active ? 'rgb(0, 198, 142);' : "#eaeaea")};  
   cursor: pointer;
-  transition: all 0.1s ease-out;
 
   &:not(:first-of-type) {
     margin-left: 1rem;

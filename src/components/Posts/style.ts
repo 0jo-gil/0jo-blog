@@ -5,21 +5,23 @@ export const StPostItemContainer = styled.div<{variant?: 'list' | 'card', $style
   ${({$style}) => $style};
 `;
 
+// flex: 0.2;
 export const StPostItemThumbnail = styled.div`
-  flex: 0.2;
 `;
 
+// flex: 0.8;
 export const StPostItemContent = styled.div`
-  flex: 0.8;
 `;
 
 export const StPostItemHashTag = styled.div`
   font-size: 12px;
   color: rgb(0, 198, 142);
+  margin-bottom: 10px;
 
   span {
     border: 1px solid rgb(0, 198, 142);
     padding: 3px 5px;
+    margin-right: 10px;
   }
 `;
  
@@ -48,25 +50,26 @@ export const StPostPreviewContainer = styled.div`
 `;
 
 
+
+
+//  div:first-child {
+//     flex: 0.2;
+//   }
+
+//   div:nth-child(2) {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: space-between;
+//     height: 170px;
+//     flex: 0.8;
+//   }
 export const STYLE_TYPE = {
   'list': css`
       width: 100%;
       display: flex;
       gap: 5%;
-      margin: 40px 0;
-
-
-      div:first-child {
-        flex: 0.2;
-      }
-
-      div:nth-child(2) {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: 170px;
-        flex: 0.8;
-      }
+      padding: 40px 0;
+      border-bottom: 1px solid #eaeaea;
   `,
   'card': css`
       div:first-child {

@@ -35,9 +35,9 @@ const PostItem = ({post, variant = 'list'}: Props) => {
     return (
         <Link to={`/posts/${slug}`}>
             <StPostItemContainer variant={variant} $style={STYLE_TYPE[variant]}>
-                    <StPostItemThumbnail>
+                    {/* <StPostItemThumbnail>
                         <img srcSet={url()} alt={`${title} 이미지`} />
-                    </StPostItemThumbnail>
+                    </StPostItemThumbnail> */}
 
                     <StPostItemContent>
                         <StContentTitle>{title}</StContentTitle>

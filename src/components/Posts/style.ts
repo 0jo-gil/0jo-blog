@@ -46,23 +46,23 @@ export const StPostTemplateTitle = styled.h1`
 export const StPostPreviewContainer = styled.div`
   margin-top: 60px;
 
- 
+  div:first-child {
+    flex: 0.2;
+  }
+
+  div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 170px;
+    flex: 0.8;
+  }
 `;
 
 
 
 
-//  div:first-child {
-//     flex: 0.2;
-//   }
 
-//   div:nth-child(2) {
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: space-between;
-//     height: 170px;
-//     flex: 0.8;
-//   }
 export const STYLE_TYPE = {
   'list': css`
       width: 100%;

@@ -1,5 +1,4 @@
-import styled from '@emotion/styled';
-import { CSSProp, css } from 'styled-components';
+import styled, { CSSProp, css } from 'styled-components';
 
 export const StPostItemContainer = styled.div<{variant?: 'list' | 'card', $style: CSSProp}>`
   ${({$style}) => $style};

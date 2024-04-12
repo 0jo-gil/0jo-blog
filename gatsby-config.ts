@@ -13,6 +13,8 @@ const config: GatsbyConfig =  {
     "gatsby-plugin-typescript",
     "gatsby-plugin-postcss",
     "gatsby-plugin-emotion",
+    "gatsby-plugin-cname",
+    "gatsby-plugin-styled-components",
     {
       resolve: `gatsby-source-filesystem`,
       options: {

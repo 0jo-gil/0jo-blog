@@ -1,9 +1,9 @@
 import * as React from "react"
 import { Link } from "gatsby"
+import Seo from "components/Seo"
 
-import Seo from "../components/seo"
 
-const UsingSSR = ({ serverData }) => {
+const UsingSSR = ({ serverData }: { serverData: any }) => {
   return (
     <div>
       <h1>

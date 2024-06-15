@@ -4,6 +4,7 @@ import PostList from "components/Posts/PostList";
 import {SummaryProps} from "../pages";
 import Layout from "components/Layout/Layout";
 import Pagination from "components/Pagination/Pagination";
+import PostItem from "components/Posts/PostItem";
 
 type Props = {
     location: {
@@ -39,12 +40,18 @@ const PostListTemplate = ({
                                       pageInfo
                                   }
                               }
-                          }: Props) => {
+}: Props) => {
+    
 
     return (
         <Layout>
             <StInnerContainer>
-                <PostList posts={edges}/>
+
+                {/* posts={edges} */}
+                <PostList >
+                    {edges.map((post: any, index: number) => <PostItem key={index} variant="list" post={post} />)}
+                </PostList>
+
 
                 <div>
                     <Pagination currentPage={pageInfo.currentPage} pageCount={pageInfo.pageCount}

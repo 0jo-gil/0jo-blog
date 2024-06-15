@@ -36,38 +36,14 @@ declare module "react" {
     }
 }
 
-// const Home = ({
-//                   // location: {search, href},
-//                   data: {
-//                       allMarkdownRemark: {
-//                           edges,
-//                       }
-//                   },
-//               }: Props) => {
-//
-//     return (
-//         <Layout
-//             title='Home'
-//         >
-//             <Section>
-//                 <Profile/>
-//             </Section>
-//
-//             <Section>
-//                 <Section.Title title={'Recent Posts'} link={{to: 'posts/list/1', text: 'more'}}/>
-//
-//                 <PostsList posts={edges}/>
-//             </Section>
-//         </Layout>
-//     )
-// }
-
-// export default Home;
 
 // , limit: 5
 export const query = graphql`
   query Home {
-     allMarkdownRemark(sort: {frontmatter: {date: DESC}}) {
+     allMarkdownRemark(sort: {
+      frontmatter: {date: DESC}} 
+      limit: 5
+    ) {
       totalCount
       nodes {
         frontmatter {

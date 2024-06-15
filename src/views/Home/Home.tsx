@@ -6,6 +6,7 @@ import RecentPosts from "components/RecentPosts/RecentPosts";
 import Section from "components/Section/Section";
 import useCategory from "hooks/useCategory";
 import usePost from "hooks/usePost";
+import PostListTemplate from "templates/PostListTemplate";
 
 const Home = ({ data, location: {pathname}}: any) => {
     const { allMarkdownRemark: {
@@ -15,10 +16,9 @@ const Home = ({ data, location: {pathname}}: any) => {
     } } = data;
 
     const {selectedCategory, categoryList, onChangeCategory} = useCategory(group);
-    const {postList, recentPostList} = usePost(selectedCategory, nodes);
-
-    console.log(categoryList);
-
+    const { postList, recentPostList } = usePost(selectedCategory, nodes);
+    
+    console.log(data)
 
     return (
         <Section>
@@ -44,6 +44,7 @@ const Home = ({ data, location: {pathname}}: any) => {
                         postList.map((post: any, index: number) => <PostItem key={index} variant="list" post={post} />)
                     }
                 </PostList>
+
             </div>
 
 

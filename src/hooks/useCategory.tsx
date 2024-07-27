@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import {useCallback, useMemo, useState} from "react";
 
 const useCategory = (group: any) => {
     const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
@@ -9,19 +9,31 @@ const useCategory = (group: any) => {
         })
     }, [group])
 
-    const getCategoryList = (key: string) => (array: any) => array.map((item: any) => item[key]);
+    // const getCategoryList = (key: string) => (array: any) => array.map((item: any) => item[key]);
+
+    const getCategoryList = (array: { fieldValue: string, totalCount: number }[]) => {
+        const totalCount = array.reduce((acc, cur) => acc + cur.totalCount, 0);
+
+        return [
+            {
+                fieldValue: '전체',
+                totalCount: totalCount
+            },
+            ...array
+        ]
+    }
 
     const onChangeCategory = useCallback((category: string) => {
         setSelectedCategory(category);
     }, [selectedCategory])
 
-    const resultCategory = getCategoryList('fieldValue')(sortedGroupByCount)
-    resultCategory.unshift('ALL');
 
+    // const resultCategory = getCategoryList('fieldValue')(sortedGroupByCount)
+    // resultCategory.unshift('ALL');
 
     return {
-        selectedCategory, 
-        categoryList: resultCategory,
+        selectedCategory,
+        categoryList: getCategoryList(sortedGroupByCount),
         onChangeCategory
     }
 }

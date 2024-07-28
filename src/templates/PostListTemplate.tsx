@@ -1,19 +1,13 @@
 import {graphql} from "gatsby";
-import {StInnerContainer} from "styles/common";
-import PostList from "components/Posts/PostList";
 import {SummaryProps} from "../pages";
-import Layout from "components/Layout/Layout";
-import Pagination from "components/Pagination/Pagination";
+import PostList from "components/Posts/PostList";
 import PostItem from "components/Posts/PostItem";
+import Pagination from "components/Pagination/Pagination";
 
 type Props = {
-    location: {
-        search: string;
-        href: string;
-    };
     data: {
         allMarkdownRemark: {
-            edges: SummaryProps[];
+            nodes: SummaryProps[];
             pageInfo: {
                 perPage: number;
                 currentPage: number;
@@ -36,28 +30,27 @@ type Props = {
 const PostListTemplate = ({
                               data: {
                                   allMarkdownRemark: {
-                                      edges,
-                                      pageInfo
+                                      nodes, pageInfo
                                   }
                               }
                           }: Props) => {
 
     return (
-        <Layout>
-            <StInnerContainer>
+        <>
+            <PostList variant={'vertical'}>
+                {
+                    nodes.map((post: any, index: number) =>
+                        <PostItem key={index}
+                                  variant="list"
+                                  post={post}/>)
+                }
+            </PostList>
 
-                {/* posts={edges} */}
-                <PostList>
-                    {edges.map((post: any, index: number) => <PostItem key={index} variant="list" post={post}/>)}
-                </PostList>
-
-
-                <div>
-                    <Pagination currentPage={pageInfo.currentPage} pageCount={pageInfo.pageCount}
-                                hasNextPage={pageInfo.hasNextPage} hasPreviousPage={pageInfo.hasPreviousPage}/>
-                </div>
-            </StInnerContainer>
-        </Layout>
+            <div>
+                <Pagination currentPage={pageInfo.currentPage} pageCount={pageInfo.pageCount}
+                            hasNextPage={pageInfo.hasNextPage} hasPreviousPage={pageInfo.hasPreviousPage}/>
+            </div>
+        </>
     )
 }
 

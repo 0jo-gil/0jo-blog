@@ -1,4 +1,4 @@
-import {graphql} from "gatsby"
+import {graphql} from "gatsby";
 
 type Props = {
     location: {
@@ -31,9 +31,11 @@ declare module "react" {
 
 // , limit: 5
 export const query = graphql`
-  query Home {
+  query Home{
      allMarkdownRemark(sort: {
-      frontmatter: {date: DESC}} 
+      frontmatter: {
+        date: DESC}
+        }
       limit: 5
     ) {
       totalCount
@@ -51,6 +53,15 @@ export const query = graphql`
         fieldValue
         totalCount
       }
+      pageInfo {
+        currentPage
+        hasNextPage
+        hasPreviousPage
+        itemCount
+        pageCount
+        perPage
+        totalCount
+      }
     }
     site {
       siteMetadata {
@@ -62,6 +73,7 @@ export const query = graphql`
     }
   }
 `;
+
 
 export {default} from '../views/Home';
 export {Head} from '../views/Home'; 

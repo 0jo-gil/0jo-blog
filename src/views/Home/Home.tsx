@@ -1,37 +1,27 @@
-import PostItem from "components/Posts/PostItem";
-import PostList from "components/Posts/PostList";
 import Profile from "components/Profile/Profile";
 import Section from "components/Section/Section";
-import useCategory from "hooks/useCategory";
-import usePost from "hooks/usePost";
 import {StFlexRow} from "styles/common";
+import PostListTemplate from "../../templates/PostListTemplate";
 import CategoriesUsage from "components/Categories/CategoriesUsage";
+import useCategory from "hooks/useCategory";
 import Banner from "components/Banner/Banner";
 
-const Home = ({data, location: {pathname}}: any) => {
-    const {
-        allMarkdownRemark: {
-            totalCount,
-            nodes,
-            group
-        }
-    } = data;
+const Home = ({data, pageContext}: any) => {
 
-    const {selectedCategory, categoryList, onChangeCategory} = useCategory(group);
-    const {postList, recentPostList} = usePost(selectedCategory, nodes);
+    const {categoryList, selectedCategory, onChangeCategory} = useCategory(data.allMarkdownRemark.group);
 
     return (
         <Section>
             <Banner selectedCategory={selectedCategory}/>
-
             {/* 카테고리 별 포스트 */}
             <StFlexRow $style={{gap: '2%'}}>
-                <PostList variant="vertical">
-                    {
-                        postList.map((post: any, index: number) => <PostItem key={index} variant="list"
-                                                                             post={post}/>)
-                    }
-                </PostList>
+                {/*<PostList variant="vertical">*/}
+                {/*    {*/}
+                {/*        postList.map((post: any, index: number) => <PostItem key={index} variant="list"*/}
+                {/*                                                             post={post}/>)*/}
+                {/*    }*/}
+                {/*</PostList>*/}
+                <PostListTemplate data={data} context={pageContext}/>
 
                 <CategoriesUsage categoryList={categoryList} selectedCategory={selectedCategory}
                                  onChange={onChangeCategory}/>

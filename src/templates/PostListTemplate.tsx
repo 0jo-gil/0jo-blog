@@ -40,16 +40,15 @@ const PostListTemplate = ({
                                       pageInfo
                                   }
                               }
-}: Props) => {
-    
+                          }: Props) => {
 
     return (
         <Layout>
             <StInnerContainer>
 
                 {/* posts={edges} */}
-                <PostList >
-                    {edges.map((post: any, index: number) => <PostItem key={index} variant="list" post={post} />)}
+                <PostList>
+                    {edges.map((post: any, index: number) => <PostItem key={index} variant="list" post={post}/>)}
                 </PostList>
 
 

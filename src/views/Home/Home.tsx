@@ -17,7 +17,6 @@ const Home = ({data, location: {pathname}}: any) => {
         }
     } = data;
 
-
     const {selectedCategory, categoryList, onChangeCategory} = useCategory(group);
     const {postList, recentPostList} = usePost(selectedCategory, nodes);
 

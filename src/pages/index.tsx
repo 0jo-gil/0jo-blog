@@ -1,11 +1,4 @@
-import * as React from "react"
 import {graphql} from "gatsby"
-
-import Layout from "components/Layout/Layout"
-
-import PostsList from "components/Posts/PostList";
-import Section from "components/Section/Section";
-import Profile from "components/Profile/Profile";
 
 type Props = {
     location: {
@@ -31,7 +24,6 @@ export type SummaryProps = {
 
 declare module "react" {
     interface IntrinsicAttributes {
-
         nodes?: SummaryProps[];
     }
 }

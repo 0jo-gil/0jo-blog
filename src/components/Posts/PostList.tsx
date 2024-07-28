@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { PropsWithChildren } from "react";
+import {PropsWithChildren} from "react";
 
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
     // posts: any;
 }
 
-const PostList = ({ variant = 'horizon', children }: PropsWithChildren<Props>) => {
+const PostList = ({variant = 'horizon', children}: PropsWithChildren<Props>) => {
     return (
         <StPostListContainer variant={variant}>
             {children}
@@ -19,11 +19,13 @@ export default PostList;
 
 
 const StPostListContainer = styled.div<Pick<Props, 'variant'>>`
-    width: 100%;
-    display: flex;
-    flex-direction: ${({variant}) => variant === 'vertical' ? 'column' : 'row'};
+  width: 100%;
+  display: flex;
+  flex-direction: ${({variant}) => variant === 'vertical' ? 'column' : 'row'};
 
-    > * {
-        flex: 1;
-    }
+  flex: 0.7;
+
+  > * {
+    flex: 1;
+  }
 `

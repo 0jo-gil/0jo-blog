@@ -1,7 +1,15 @@
 import {useCallback, useMemo, useState} from "react";
 
 const useCategory = (group: any) => {
-    const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
+    const [selectedCategory, setSelectedCategory] = useState<{
+        fieldValue: string;
+        totalCount: number;
+    }>(
+        {
+            fieldValue: '전체',
+            totalCount: 0
+        }
+    );
 
     const sortedGroupByCount = useMemo(() => {
         return group.sort((a: any, b: any) => {
@@ -23,7 +31,7 @@ const useCategory = (group: any) => {
         ]
     }
 
-    const onChangeCategory = useCallback((category: string) => {
+    const onChangeCategory = useCallback((category: { fieldValue: string, totalCount: number }) => {
         setSelectedCategory(category);
     }, [selectedCategory])
 

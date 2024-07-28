@@ -12,19 +12,10 @@ type Props = {
 const CategoriesItem = ({active = false, category, ...props}: Props) => {
 
     return (
-        // <StyledLink
-        //   active={active}
-        //   onClick={() => onClick(category)}
-        //   aria-label={`${category} 카테고리`}
-        //   to={`/${encodeURI(category)}`}
-        // >
-        //     {category}
-        // </StyledLink>
-
         <StCategoryButton {...props} active={active}>
             {/*{category}*/}
             <span>{category.fieldValue}</span>
-            <span>{category.totalCount}</span>
+            <StCategoryCount>{category.totalCount}</StCategoryCount>
         </StCategoryButton>
     )
 };
@@ -36,13 +27,18 @@ const StCategoryButton = styled.button<{ active: boolean }>`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  padding: 0.25rem 0.75rem;
+  padding: 1rem 1rem;
   font-size: 0.9rem;
   white-space: nowrap;
 
-  color: ${({active}) => (active ? 'rgb(0, 198, 142);' : "#eaeaea")};
-  border: 1px solid ${({active}) => (active ? 'rgb(0, 198, 142);' : "#eaeaea")};
+    //color: ${({active}) => (active ? 'rgb(0, 198, 142);' : "#eaeaea")};
+    // border: 1px solid ${({active}) => (active ? 'rgb(0, 198, 142);' : "#eaeaea")};
   cursor: pointer;
 `;
 
 
+const StCategoryCount = styled.span`
+  background-color: #eaeaea;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.5rem;
+`;

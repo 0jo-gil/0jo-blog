@@ -20,6 +20,8 @@ const PostItem = ({ post, variant = "list" }: Props) => {
     return ReactLogoImg
   }
 
+  if (!post) return null
+
   const {
     frontmatter: { category, date, slug, summary, title },
     id,

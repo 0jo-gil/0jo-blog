@@ -22,28 +22,21 @@ const PostItem = ({ post, variant = "list" }: Props) => {
 
   if (!post) return null
 
-  const {
-    frontmatter: { category, date, slug, summary, title },
-    id,
-  } = post
+  const { id, category, date, slug, summary, title } = post
 
   return (
     <Link to={`/posts/${slug}`}>
       <StPostItemContainer variant={variant} $style={STYLE_TYPE[variant]}>
-        {/* <StPostItemThumbnail>
-                        <img srcSet={url()} alt={`${title} 이미지`} />
-                    </StPostItemThumbnail> */}
-
         <StPostItemContent>
-          <StContentTitle>{title}</StContentTitle>
-          <StPostItemSummary>{summary}</StPostItemSummary>
-          <StPostItemHashTag>
-            {category?.map((category: string, index: number) => (
-              <span key={index}>{category}</span>
-            ))}
-          </StPostItemHashTag>
-          <div>{date}</div>
+          <StContentTitle>{title?.title}</StContentTitle>
         </StPostItemContent>
+        <StPostItemSummary>{summary}</StPostItemSummary>
+        <StPostItemHashTag>
+          {category?.map((category: string, index: number) => (
+            <span key={index}>{category}</span>
+          ))}
+        </StPostItemHashTag>
+        <div>{date}</div>
       </StPostItemContainer>
     </Link>
   )

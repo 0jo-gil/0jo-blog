@@ -1,12 +1,14 @@
-import {GatsbyConfig} from "gatsby";
+import dotenv from "dotenv"
+import { GatsbyConfig } from "gatsby"
 
+dotenv.config()
 
-const config: GatsbyConfig =  {
+const config: GatsbyConfig = {
   siteMetadata: {
     title: `0jo's blog`,
-        description: `2024 0jo's development blog`,
-        author: `0jo`,
-        siteUrl: `https://tech.0jo.site`,
+    description: `2025 0jo's development blog`,
+    author: `0jo`,
+    siteUrl: `https://tech.0jo.site`,
   },
   plugins: [
     `gatsby-plugin-image`,
@@ -91,7 +93,14 @@ const config: GatsbyConfig =  {
           }`,
       },
     },
+    {
+      resolve: "gatsby-source-contentful",
+      options: {
+        spaceId: process.env.CONTENTFUL_SPACE_ID,
+        accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+      },
+    },
   ],
 }
 
-export default config;
+export default config
